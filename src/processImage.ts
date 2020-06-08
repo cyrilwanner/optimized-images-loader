@@ -20,7 +20,7 @@ const processImage = async (
   imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
 ): Promise<Buffer> => {
-  let image = inputImage;
+  let image = inputImage.rotate();
 
   // resize image
   if (imageOptions.resize) {
