@@ -1,5 +1,5 @@
 import querystring from 'querystring';
-import { LoaderOptions } from '.';
+import { LoaderOptions } from './options';
 
 export interface ImageOptions {
   optimize: boolean;

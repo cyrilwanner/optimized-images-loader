@@ -1,15 +1,15 @@
-import sharp from 'sharp';
-import parseQuery from './parseQuery';
-import { LoaderOptions } from '.';
-import optimizeJpeg from './formats/jpeg';
+import { Sharp } from 'sharp';
+import { ImageOptions } from './parseQuery';
+import { LoaderOptions } from './options';
+import optimizeImage from './formats';
 
-const processImage = async (source: Buffer, resourceQuery: string, loaderOptions: LoaderOptions): Promise<Buffer> => {
-  // load image
-  let image = sharp(source);
-  const imageMetadata = await image.metadata();
-
-  // parse image options
-  const imageOptions = parseQuery(resourceQuery, imageMetadata, loaderOptions);
+const processImage = async (
+  inputImage: Sharp,
+  imageInfo: { format?: string },
+  imageOptions: ImageOptions,
+  loaderOptions: LoaderOptions,
+): Promise<Buffer> => {
+  let image = inputImage;
 
   // resize image
   if (imageOptions.resize) {
@@ -17,10 +17,8 @@ const processImage = async (source: Buffer, resourceQuery: string, loaderOptions
   }
 
   // optimize image
-  if (imageOptions.optimize) {
-    if (imageMetadata.format === 'jpeg') {
-      return optimizeJpeg(image, loaderOptions.mozjpeg);
-    }
+  if (imageOptions.optimize && imageInfo.format) {
+    return optimizeImage(image, imageInfo.format, loaderOptions);
   }
 
   return image.toBuffer();

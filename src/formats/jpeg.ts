@@ -1,6 +1,6 @@
 import { Sharp } from 'sharp';
 import encode from '@wasm-codecs/mozjpeg';
-import { LoaderOptions } from '..';
+import { LoaderOptions } from '../options';
 
 const optimizeJpeg = async (image: Sharp, options?: LoaderOptions['mozjpeg']): Promise<Buffer> => {
   // convert to raw image data
