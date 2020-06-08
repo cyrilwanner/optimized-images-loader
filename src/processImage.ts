@@ -25,6 +25,19 @@ const processImage = async (
   // resize image
   if (imageOptions.resize) {
     image = image.resize(imageOptions.width, imageOptions.height);
+
+    // fill missing resize values
+    if (typeof imageOptions.width !== 'number' || typeof imageOptions.height !== 'number') {
+      const { info } = await image.toBuffer({ resolveWithObject: true });
+
+      if (typeof imageOptions.width !== 'number') {
+        imageOptions.width = info.width; // eslint-disable-line no-param-reassign
+      }
+
+      if (typeof imageOptions.height !== 'number') {
+        imageOptions.height = info.height; // eslint-disable-line no-param-reassign
+      }
+    }
   }
 
   // convert image
