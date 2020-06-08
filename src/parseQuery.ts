@@ -9,6 +9,14 @@ export interface ImageOptions {
   convert?: 'webp';
 }
 
+/**
+ * Parses a query string into image options
+ *
+ * @param {string} rawQuery Resource query
+ * @param {{ width?: number; height?: number }} imageInfo Metadata of the image
+ * @param {LoaderOptions} loaderOptions Optimized images loader options
+ * @returns {ImageOptions} Image options
+ */
 const parseQuery = (
   rawQuery: string,
   imageInfo: { width?: number; height?: number },

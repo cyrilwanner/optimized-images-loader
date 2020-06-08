@@ -5,6 +5,13 @@ import processImage from './processImage';
 import parseQuery from './parseQuery';
 import { LoaderOptions } from './options';
 
+/**
+ * Optimized images loader
+ * Called by webpack
+ *
+ * @param {Buffer} source Image to optimize
+ * @returns {null} Calls the webpack callback once finished
+ */
 export default function optimizedImagesLoader(this: loader.LoaderContext, source: Buffer): null {
   const callback = this.async() as loader.loaderCallback;
 
