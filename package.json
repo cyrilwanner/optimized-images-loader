@@ -24,9 +24,11 @@
   "dependencies": {
     "@wasm-codecs/mozjpeg": "^1.0.0",
     "@wasm-codecs/oxipng": "^1.0.0",
+    "file-loader": "^6.0.0",
     "loader-utils": "^2.0.0",
     "schema-utils": "^2.6.6",
-    "sharp": "^0.25.3"
+    "sharp": "^0.25.3",
+    "url-loader": "^4.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

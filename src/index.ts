@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import processImage from './processImage';
 import parseQuery from './parseQuery';
 import { LoaderOptions } from './options';
+import processLoaders from './processLoaders';
 
 /**
  * Optimized images loader
@@ -28,7 +29,10 @@ export default function optimizedImagesLoader(this: loader.LoaderContext, source
     // process image
     const processedImage = await processImage(image, imageMetadata, imageOptions, loaderOptions);
 
-    callback(null, processedImage);
+    // process further loaders
+    const output = processLoaders(this, processedImage, imageMetadata, imageOptions, loaderOptions);
+
+    callback(null, output);
   })();
 
   return null;
