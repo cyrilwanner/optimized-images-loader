@@ -15,6 +15,14 @@ const processLoaders = (
     ...loaderOptions,
   };
 
+  // change extension for converted images
+  if (imageOptions.convert && furtherLoaderOptions.name) {
+    furtherLoaderOptions.name =
+      furtherLoaderOptions.name.indexOf('[ext]') >= 0
+        ? furtherLoaderOptions.name.replace('[ext]', imageOptions.convert)
+        : (furtherLoaderOptions.name += `.${imageOptions.convert}`);
+  }
+
   // build new loader context
   const furtherLoaderContext = { ...context, query: furtherLoaderOptions };
 
