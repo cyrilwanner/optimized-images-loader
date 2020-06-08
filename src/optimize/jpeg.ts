@@ -10,9 +10,7 @@ const optimizeJpeg = async (image: Sharp, options?: LoaderOptions['mozjpeg']): P
   } = await image.raw().toBuffer({ resolveWithObject: true });
 
   // encode the image using @wasm-codecs/mozjpeg
-  const output = await encode(data, { width, height, channels }, options);
-
-  return output;
+  return encode(data, { width, height, channels }, options);
 };
 
 export default optimizeJpeg;

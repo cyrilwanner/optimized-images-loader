@@ -4,9 +4,7 @@ import { LoaderOptions } from '../options';
 
 const optimizePng = async (image: Sharp, options?: LoaderOptions['oxipng']): Promise<Buffer> => {
   // encode the image using @wasm-codecs/oxipng
-  const output = await encode(await image.toBuffer(), options);
-
-  return output;
+  return encode(await image.toBuffer(), options);
 };
 
 export default optimizePng;

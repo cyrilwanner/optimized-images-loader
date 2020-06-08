@@ -14,7 +14,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:types",
     "build:js": "babel src --out-dir lib --delete-dir-on-start --extensions \".ts\"",
-    "build:js:watch": "npm run build:js -- --watch",
+    "build:js:watch": "npm run build:js -- --watch --verbose",
     "build:types": "tsc --emitDeclarationOnly",
     "lint": "tsc --noEmit && eslint . --ext .ts --ext .js",
     "lint:fix": "npm run lint -- --fix",

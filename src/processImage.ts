@@ -1,7 +1,8 @@
 import { Sharp } from 'sharp';
 import { ImageOptions } from './parseQuery';
 import { LoaderOptions } from './options';
-import optimizeImage from './formats';
+import optimizeImage from './optimize';
+import convertImage from './convert';
 
 const processImage = async (
   inputImage: Sharp,
@@ -14,6 +15,11 @@ const processImage = async (
   // resize image
   if (imageOptions.resize) {
     image = image.resize(imageOptions.width, imageOptions.height);
+  }
+
+  // convert image
+  if (imageOptions.convert) {
+    return convertImage(image, imageOptions.convert, loaderOptions);
   }
 
   // optimize image
