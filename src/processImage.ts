@@ -22,8 +22,13 @@ const processImage = async (
   loaderOptions: LoaderOptions,
 ): Promise<{ data: Buffer | string; info: { width?: number; height?: number; format?: string } }> => {
   // load image
-  let image = sharp(inputImage).rotate();
+  let image = sharp(inputImage);
   const imageMetadata = await image.metadata();
+
+  // rotate image if necessairy
+  if (imageMetadata.format !== 'svg') {
+    image = image.rotate();
+  }
 
   // calculate blur options if lqip is requested
   if (imageOptions.lqip === 'blur') {
@@ -60,7 +65,12 @@ const processImage = async (
 
   // optimize image
   if (imageOptions.optimize && imageMetadata.format) {
-    return { data: await optimizeImage(image, imageMetadata.format, loaderOptions), info: imageMetadata };
+    return { data: await optimizeImage(image, inputImage, imageMetadata.format, loaderOptions), info: imageMetadata };
+  }
+
+  // for svg, return input image if it was not optimized
+  if (imageMetadata.format === 'svg') {
+    return { data: inputImage, info: imageMetadata };
   }
 
   return { data: await image.toBuffer(), info: imageMetadata };

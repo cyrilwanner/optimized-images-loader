@@ -7,6 +7,7 @@ export interface LoaderOptions {
   mozjpeg?: MozjpegOptions;
   oxipng?: OxipngOptions;
   webp?: WebpOptions;
+  svgo?: Record<string, unknown>;
 }
 
 // default options for file- & url-loader
