@@ -1,27 +1,34 @@
-import { Sharp } from 'sharp';
+import sharp from 'sharp';
 import { ImageOptions } from './parseQuery';
 import { LoaderOptions } from './options';
 import optimizeImage from './optimize';
 import convertImage from './convert';
 import getDominantColors from './lqip/colors';
+import calculateBlurOptions from './lqip/blur';
 
 /**
  * Processes an image by performing all steps specified in the image options
  *
  * @async
- * @param {Sharp} inputImage Sharp wrapper of input image
+ * @param {Buffer} inputImage Input image
  * @param {{ format?: string }} imageInfo Input image metadata
  * @param {ImageOptions} imageOptions Target image options
  * @param {LoaderOptions} loaderOptions Optimized images loader options
- * @returns {Buffer | string} Processed image
+ * @returns {{ data: Buffer | string; info: { width?: number; height?: number; format?: string } }} Processed image
  */
 const processImage = async (
-  inputImage: Sharp,
-  imageInfo: { format?: string },
+  inputImage: Buffer,
   imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
-): Promise<Buffer | string> => {
-  let image = inputImage.rotate();
+): Promise<{ data: Buffer | string; info: { width?: number; height?: number; format?: string } }> => {
+  // load image
+  let image = sharp(inputImage).rotate();
+  const imageMetadata = await image.metadata();
+
+  // calculate blur options if lqip is requested
+  if (imageOptions.lqip === 'blur') {
+    calculateBlurOptions(imageMetadata, imageOptions);
+  }
 
   // resize image
   if (imageOptions.resize) {
@@ -43,20 +50,20 @@ const processImage = async (
 
   // get lqip colors
   if (imageOptions.lqip === 'colors') {
-    return getDominantColors(image, loaderOptions);
+    return { data: await getDominantColors(image, loaderOptions), info: imageMetadata };
   }
 
   // convert image
   if (imageOptions.convert) {
-    return convertImage(image, imageOptions.convert, loaderOptions);
+    return { data: await convertImage(image, imageOptions.convert, loaderOptions), info: imageMetadata };
   }
 
   // optimize image
-  if (imageOptions.optimize && imageInfo.format) {
-    return optimizeImage(image, imageInfo.format, loaderOptions);
+  if (imageOptions.optimize && imageMetadata.format) {
+    return { data: await optimizeImage(image, imageMetadata.format, loaderOptions), info: imageMetadata };
   }
 
-  return image.toBuffer();
+  return { data: await image.toBuffer(), info: imageMetadata };
 };
 
 export default processImage;

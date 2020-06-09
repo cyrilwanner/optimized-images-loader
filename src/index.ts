@@ -1,6 +1,5 @@
 import { loader } from 'webpack';
 import { getOptions } from 'loader-utils';
-import sharp from 'sharp';
 import processImage from './processImage';
 import parseQuery from './parseQuery';
 import { LoaderOptions } from './options';
@@ -19,18 +18,14 @@ export default function optimizedImagesLoader(this: loader.LoaderContext, source
   (async () => {
     const loaderOptions = getOptions(this) as LoaderOptions;
 
-    // load image
-    const image = sharp(source);
-    const imageMetadata = await image.metadata();
-
     // parse image options
-    const imageOptions = parseQuery(this.resourceQuery, imageMetadata, loaderOptions);
+    const imageOptions = parseQuery(this.resourceQuery, loaderOptions);
 
     // process image
-    const processedImage = await processImage(image, imageMetadata, imageOptions, loaderOptions);
+    const { data, info } = await processImage(source, imageOptions, loaderOptions);
 
     // process further loaders
-    const output = processLoaders(this, processedImage, imageMetadata, imageOptions, loaderOptions);
+    const output = processLoaders(this, data, info, imageOptions, loaderOptions);
 
     callback(null, output);
   })();

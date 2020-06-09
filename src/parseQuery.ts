@@ -17,15 +17,10 @@ export interface ImageOptions {
  * Parses a query string into image options
  *
  * @param {string} rawQuery Resource query
- * @param {{ width?: number; height?: number }} imageInfo Metadata of the image
  * @param {LoaderOptions} loaderOptions Optimized images loader options
  * @returns {ImageOptions} Image options
  */
-const parseQuery = (
-  rawQuery: string,
-  imageInfo: { width?: number; height?: number },
-  loaderOptions: LoaderOptions,
-): ImageOptions => {
+const parseQuery = (rawQuery: string, loaderOptions: LoaderOptions): ImageOptions => {
   const query = querystring.parse(rawQuery.substr(0, 1) === '?' ? rawQuery.substr(1) : rawQuery);
   const options: ImageOptions = {
     optimize: loaderOptions.optimize !== false,
@@ -67,17 +62,6 @@ const parseQuery = (
     options.resize = true;
     options.optimize = false;
     options.lqip = 'blur';
-
-    if (!imageInfo.width || !imageInfo.height) {
-      options.width = 10;
-      options.height = 10;
-    } else if (imageInfo.width > imageInfo.height) {
-      options.width = 10;
-      options.height = Math.round((10 / imageInfo.width) * imageInfo.height);
-    } else {
-      options.height = 10;
-      options.width = Math.round((10 / imageInfo.height) * imageInfo.width);
-    }
   }
 
   // return dominant colors instead of image
