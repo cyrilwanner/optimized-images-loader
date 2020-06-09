@@ -8,3 +8,9 @@ export interface LoaderOptions {
   oxipng?: OxipngOptions;
   webp?: WebpOptions;
 }
+
+// default options for file- & url-loader
+export const defaultFurtherLoaderOptions = {
+  name: '[name]-[contenthash].[ext]',
+  limit: 8192,
+};

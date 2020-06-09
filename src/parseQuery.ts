@@ -7,6 +7,7 @@ export interface ImageOptions {
   width?: number;
   height?: number;
   convert?: 'webp';
+  forceInline?: boolean;
 }
 
 /**
@@ -31,6 +32,11 @@ const parseQuery = (
   // disable optimization
   if (typeof query.original !== 'undefined') {
     options.optimize = false;
+  }
+
+  // force inline
+  if (typeof query.inline !== 'undefined') {
+    options.forceInline = true;
   }
 
   // resize image

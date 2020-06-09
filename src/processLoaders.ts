@@ -2,6 +2,7 @@ import urlLoader from 'url-loader';
 import { loader } from 'webpack';
 import { OptionObject } from 'loader-utils';
 import { ImageOptions } from './parseQuery';
+import { defaultFurtherLoaderOptions } from './options';
 
 /**
  * Builds an export statement
@@ -62,8 +63,9 @@ const processLoaders = (
 ): string => {
   // create options for further loaders (url-loader & file-loader)
   const furtherLoaderOptions = {
+    ...defaultFurtherLoaderOptions,
     ...loaderOptions,
-  };
+  } as OptionObject;
 
   // change extension for converted images
   if (imageOptions.convert && furtherLoaderOptions.name) {
@@ -71,6 +73,11 @@ const processLoaders = (
       furtherLoaderOptions.name.indexOf('[ext]') >= 0
         ? furtherLoaderOptions.name.replace('[ext]', imageOptions.convert)
         : (furtherLoaderOptions.name += `.${imageOptions.convert}`);
+  }
+
+  // force inlining
+  if (imageOptions.forceInline) {
+    furtherLoaderOptions.limit = undefined;
   }
 
   // build new loader context
