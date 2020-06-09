@@ -48,7 +48,7 @@ const enrichResult = (
  * Process further loaders (url-loader & file-loader)
  *
  * @param {loader.LoaderContext} context Optimized images loader context
- * @param {Buffer} image Processed image
+ * @param {Buffer | string} image Processed image
  * @param {{ width?: number; height?: number }} originalImageInfo Metadata of original image
  * @param {ImageOptions} imageOptions Image options
  * @param {OptionObject} loaderOptions Options for further loaders
@@ -56,11 +56,16 @@ const enrichResult = (
  */
 const processLoaders = (
   context: loader.LoaderContext,
-  image: Buffer,
+  image: Buffer | string,
   originalImageInfo: { width?: number; height?: number },
   imageOptions: ImageOptions,
   loaderOptions: OptionObject,
 ): string => {
+  // do not apply further loaders if not needed
+  if (imageOptions.processLoaders === false && typeof image === 'string') {
+    return enrichResult(image, originalImageInfo, imageOptions);
+  }
+
   // create options for further loaders (url-loader & file-loader)
   const furtherLoaderOptions = {
     ...defaultFurtherLoaderOptions,

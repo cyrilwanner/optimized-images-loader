@@ -9,6 +9,8 @@ export interface ImageOptions {
   convert?: 'webp';
   forceInline?: boolean;
   forceUrl?: boolean;
+  processLoaders?: boolean;
+  lqip?: 'blur' | 'colors';
 }
 
 /**
@@ -64,6 +66,7 @@ const parseQuery = (
   if (typeof query.lqip !== 'undefined') {
     options.resize = true;
     options.optimize = false;
+    options.lqip = 'blur';
 
     if (!imageInfo.width || !imageInfo.height) {
       options.width = 10;
@@ -75,6 +78,12 @@ const parseQuery = (
       options.height = 10;
       options.width = Math.round((10 / imageInfo.height) * imageInfo.width);
     }
+  }
+
+  // return dominant colors instead of image
+  if (typeof query.colors !== 'undefined' || typeof query['lqip-colors'] !== 'undefined') {
+    options.processLoaders = false;
+    options.lqip = 'colors';
   }
 
   return options;

@@ -25,6 +25,7 @@
     "@wasm-codecs/mozjpeg": "^1.0.0",
     "@wasm-codecs/oxipng": "^1.0.0",
     "file-loader": "^6.0.0",
+    "get-rgba-palette": "^2.0.1",
     "loader-utils": "^2.0.0",
     "schema-utils": "^2.6.6",
     "sharp": "^0.25.3",

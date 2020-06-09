@@ -3,6 +3,7 @@ import { ImageOptions } from './parseQuery';
 import { LoaderOptions } from './options';
 import optimizeImage from './optimize';
 import convertImage from './convert';
+import getDominantColors from './lqip/colors';
 
 /**
  * Processes an image by performing all steps specified in the image options
@@ -12,14 +13,14 @@ import convertImage from './convert';
  * @param {{ format?: string }} imageInfo Input image metadata
  * @param {ImageOptions} imageOptions Target image options
  * @param {LoaderOptions} loaderOptions Optimized images loader options
- * @returns {Buffer} Processed image
+ * @returns {Buffer | string} Processed image
  */
 const processImage = async (
   inputImage: Sharp,
   imageInfo: { format?: string },
   imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
-): Promise<Buffer> => {
+): Promise<Buffer | string> => {
   let image = inputImage.rotate();
 
   // resize image
@@ -38,6 +39,11 @@ const processImage = async (
         imageOptions.height = info.height; // eslint-disable-line no-param-reassign
       }
     }
+  }
+
+  // get lqip colors
+  if (imageOptions.lqip === 'colors') {
+    return getDominantColors(image, loaderOptions);
   }
 
   // convert image
