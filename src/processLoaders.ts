@@ -78,6 +78,10 @@ const processLoaders = (
   // force inlining
   if (imageOptions.forceInline) {
     furtherLoaderOptions.limit = undefined;
+
+    // force url
+  } else if (imageOptions.forceUrl) {
+    furtherLoaderOptions.limit = -1;
   }
 
   // build new loader context

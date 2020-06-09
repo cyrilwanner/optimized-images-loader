@@ -8,6 +8,7 @@ export interface ImageOptions {
   height?: number;
   convert?: 'webp';
   forceInline?: boolean;
+  forceUrl?: boolean;
 }
 
 /**
@@ -37,6 +38,11 @@ const parseQuery = (
   // force inline
   if (typeof query.inline !== 'undefined') {
     options.forceInline = true;
+  }
+
+  // force url
+  if (typeof query.url !== 'undefined') {
+    options.forceUrl = true;
   }
 
   // resize image
