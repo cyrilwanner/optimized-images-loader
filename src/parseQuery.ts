@@ -42,6 +42,11 @@ const parseQuery = (rawQuery: string, loaderOptions: LoaderOptions): ImageOption
     options.forceUrl = true;
   }
 
+  // include raw image (used for svg)
+  if (typeof query.include !== 'undefined') {
+    options.processLoaders = false;
+  }
+
   // resize image
   if (typeof query.width === 'string') {
     options.width = parseInt(query.width, 10);

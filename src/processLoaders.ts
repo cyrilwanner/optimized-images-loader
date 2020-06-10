@@ -56,14 +56,20 @@ const enrichResult = (
  */
 const processLoaders = (
   context: loader.LoaderContext,
-  image: Buffer | string,
+  image: Buffer | string | string[],
   originalImageInfo: { width?: number; height?: number },
   imageOptions: ImageOptions,
   loaderOptions: OptionObject,
 ): string => {
   // do not apply further loaders if not needed
-  if (imageOptions.processLoaders === false && typeof image === 'string') {
-    return enrichResult(image, originalImageInfo, imageOptions);
+  if (imageOptions.processLoaders === false) {
+    const output = Buffer.isBuffer(image) ? image.toString() : image;
+
+    if (loaderOptions.esModule === false) {
+      return enrichResult(`module.exports = ${JSON.stringify(output)}`, originalImageInfo, imageOptions);
+    }
+
+    return enrichResult(`export default ${JSON.stringify(output)}`, originalImageInfo, imageOptions);
   }
 
   // create options for further loaders (url-loader & file-loader)

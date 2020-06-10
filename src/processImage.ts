@@ -20,7 +20,7 @@ const processImage = async (
   inputImage: Buffer,
   imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
-): Promise<{ data: Buffer | string; info: { width?: number; height?: number; format?: string } }> => {
+): Promise<{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } }> => {
   // load image
   let image = sharp(inputImage);
   const imageMetadata = await image.metadata();
@@ -55,7 +55,7 @@ const processImage = async (
 
   // get lqip colors
   if (imageOptions.lqip === 'colors') {
-    return { data: await getDominantColors(image, loaderOptions), info: imageMetadata };
+    return { data: await getDominantColors(image), info: imageMetadata };
   }
 
   // convert image
