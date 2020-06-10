@@ -5,43 +5,34 @@ import { ImageOptions } from './parseQuery';
 import { defaultFurtherLoaderOptions } from './options';
 
 /**
- * Builds an export statement
- *
- * @param {boolean} esModule If es module syntax should get used
- * @param {string} key Export key
- * @param {any} value Export value
- * @returns {string} Export statement
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const buildExport = (esModule: boolean, key: string, value: any): string => {
-  return `${esModule ? 'export var ' : 'src.'}${key} = ${JSON.stringify(value)};`;
-};
-
-/**
  * Enrich previous loader result with new information
  *
- * @param {string} result Previous loader result
+ * @param {string | string[]} result Previous loader result
  * @param {{ width?: number; height?: number }} originalImageInfo Metadata of original image
  * @param {ImageOptions} imageOptions Image options
  * @returns {string} Enriched result
  */
 const enrichResult = (
-  result: string,
+  result: string | string[],
   originalImageInfo: { width?: number; height?: number },
   imageOptions: ImageOptions,
 ): string => {
-  const esModule = result.startsWith('export ');
-  const output = esModule
-    ? result
-    : result.replace(/((module\.exports\s*=|export\s+default)\s*)([^\s].*)(;$|[^;]$)/g, 'var src = new String($3);');
+  const width = imageOptions.resize ? imageOptions.width : originalImageInfo.width;
+  const height = imageOptions.resize ? imageOptions.height : originalImageInfo.height;
 
-  return (
-    output +
-    (output.endsWith(';') ? '' : ';') +
-    buildExport(esModule, 'width', imageOptions.resize ? imageOptions.width : originalImageInfo.width) +
-    buildExport(esModule, 'height', imageOptions.resize ? imageOptions.height : originalImageInfo.height) +
-    (esModule ? '' : 'module.exports = src;')
-  );
+  // an array means it was not processed by the url-/file-loader and the result should still be an array
+  // instead of a string. so in this case, append the additional export information to the array prototype
+  if (Array.isArray(result)) {
+    return `var res = ${JSON.stringify(result)};res.width=${width};res.height=${height};module.exports = res;`;
+  }
+
+  if (result.indexOf('module.exports') < 0) {
+    throw new Error('Unexpected input');
+  }
+
+  const output = result.replace(/((module\.exports\s*=)\s*)([^\s].*[^;])(;$|$)/g, 'var src = $3;');
+
+  return `${output}module.exports = {src:src,width:${width},height:${height},toString:function(){return src;}};`;
 };
 
 /**
@@ -63,19 +54,20 @@ const processLoaders = (
 ): string => {
   // do not apply further loaders if not needed
   if (imageOptions.processLoaders === false) {
-    const output = Buffer.isBuffer(image) ? image.toString() : image;
-
-    if (loaderOptions.esModule === false) {
-      return enrichResult(`module.exports = ${JSON.stringify(output)}`, originalImageInfo, imageOptions);
+    if (Array.isArray(image)) {
+      return enrichResult(image, originalImageInfo, imageOptions);
     }
 
-    return enrichResult(`export default ${JSON.stringify(output)}`, originalImageInfo, imageOptions);
+    const output = Buffer.isBuffer(image) ? image.toString() : image;
+
+    return enrichResult(`module.exports = ${JSON.stringify(output)}`, originalImageInfo, imageOptions);
   }
 
   // create options for further loaders (url-loader & file-loader)
   const furtherLoaderOptions = {
     ...defaultFurtherLoaderOptions,
     ...loaderOptions,
+    esModule: false,
   } as OptionObject;
 
   // change extension for converted images
