@@ -4,6 +4,7 @@ import processImage from './processImage';
 import parseQuery from './parseQuery';
 import { LoaderOptions } from './options';
 import processLoaders from './processLoaders';
+import { getCache, setCache } from './cache';
 
 /**
  * Optimized images loader
@@ -21,11 +22,22 @@ export default function optimizedImagesLoader(this: loader.LoaderContext, source
     // parse image options
     const imageOptions = parseQuery(this.resourceQuery, loaderOptions);
 
-    // process image
-    const { data, info } = await processImage(source, imageOptions, loaderOptions);
+    let result: { data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } };
+
+    // try retrieving the image from cache
+    const cached = await getCache(source, imageOptions, loaderOptions);
+    if (cached) {
+      result = cached;
+    } else {
+      // process image
+      result = await processImage(source, imageOptions, loaderOptions);
+
+      // cache processed image
+      setCache(source, result.data, result.info, imageOptions, loaderOptions);
+    }
 
     // process further loaders
-    const output = processLoaders(this, data, info, imageOptions, loaderOptions);
+    const output = processLoaders(this, result.data, result.info, imageOptions, loaderOptions);
 
     callback(null, output);
   })();

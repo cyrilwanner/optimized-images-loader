@@ -4,6 +4,7 @@ import { WebpOptions } from 'sharp';
 
 export interface LoaderOptions {
   optimize?: boolean;
+  cacheFolder?: string;
   mozjpeg?: MozjpegOptions;
   oxipng?: OxipngOptions;
   webp?: WebpOptions;
