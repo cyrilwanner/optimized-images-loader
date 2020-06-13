@@ -8,22 +8,25 @@ import { defaultFurtherLoaderOptions } from './options';
  * Enrich previous loader result with new information
  *
  * @param {string | string[]} result Previous loader result
- * @param {{ width?: number; height?: number }} originalImageInfo Metadata of original image
+ * @param {{ width?: number; height?: number; format?: string }} originalImageInfo Metadata of original image
  * @param {ImageOptions} imageOptions Image options
  * @returns {string} Enriched result
  */
 const enrichResult = (
   result: string | string[],
-  originalImageInfo: { width?: number; height?: number },
+  originalImageInfo: { width?: number; height?: number; format?: string },
   imageOptions: ImageOptions,
 ): string => {
   const width = imageOptions.resize ? imageOptions.width : originalImageInfo.width;
   const height = imageOptions.resize ? imageOptions.height : originalImageInfo.height;
+  const format = imageOptions.convert ? imageOptions.convert : originalImageInfo.format;
 
   // an array means it was not processed by the url-/file-loader and the result should still be an array
   // instead of a string. so in this case, append the additional export information to the array prototype
   if (Array.isArray(result)) {
-    return `var res = ${JSON.stringify(result)};res.width=${width};res.height=${height};module.exports = res;`;
+    return `var res = ${JSON.stringify(result)};res.width=${width};res.height=${height};res.format=${JSON.stringify(
+      format || '',
+    )};module.exports = res;`;
   }
 
   if (result.indexOf('module.exports') < 0) {
@@ -32,7 +35,9 @@ const enrichResult = (
 
   const output = result.replace(/((module\.exports\s*=)\s*)([^\s].*[^;])(;$|$)/g, 'var src = $3;');
 
-  return `${output}module.exports = {src:src,width:${width},height:${height},toString:function(){return src;}};`;
+  return `${output}module.exports = {src:src,width:${width},height:${height},format:${JSON.stringify(
+    format || '',
+  )},toString:function(){return src;}};`;
 };
 
 /**
@@ -40,7 +45,7 @@ const enrichResult = (
  *
  * @param {loader.LoaderContext} context Optimized images loader context
  * @param {Buffer | string} image Processed image
- * @param {{ width?: number; height?: number }} originalImageInfo Metadata of original image
+ * @param {{ width?: number; height?: number; format?: string }} originalImageInfo Metadata of original image
  * @param {ImageOptions} imageOptions Image options
  * @param {OptionObject} loaderOptions Options for further loaders
  * @returns {string} Processed loader output
@@ -48,7 +53,7 @@ const enrichResult = (
 const processLoaders = (
   context: loader.LoaderContext,
   image: Buffer | string | string[],
-  originalImageInfo: { width?: number; height?: number },
+  originalImageInfo: { width?: number; height?: number; format?: string },
   imageOptions: ImageOptions,
   loaderOptions: OptionObject,
 ): string => {
