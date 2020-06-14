@@ -59,7 +59,8 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "images.d.ts"
   ],
   "repository": {
     "type": "git",
