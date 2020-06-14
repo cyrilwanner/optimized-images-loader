@@ -4,6 +4,7 @@ import { LoaderOptions } from '../options';
 import optimizePng from './png';
 import optimizeWebp from './webp';
 import optimizeSvg from './svg';
+import optimizeGif from './gif';
 
 const sharpBasedOptimizers = {
   jpeg: {
@@ -24,6 +25,10 @@ const rawBufferBasedOptimizers = {
   svg: {
     handler: optimizeSvg,
     optionsKey: 'svgo',
+  },
+  gif: {
+    handler: optimizeGif,
+    optionsKey: 'gifsicle',
   },
 } as Record<string, { handler: (image: Buffer, options?: unknown) => Promise<Buffer>; optionsKey: string }>;
 

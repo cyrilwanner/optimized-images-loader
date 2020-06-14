@@ -8,6 +8,7 @@ export interface LoaderOptions {
   mozjpeg?: MozjpegOptions;
   oxipng?: OxipngOptions;
   webp?: WebpOptions;
+  gifsicle?: unknown;
   svgo?: Record<string, unknown>;
 }
 

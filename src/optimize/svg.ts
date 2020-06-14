@@ -5,7 +5,7 @@ import { LoaderOptions } from '../options';
  * Optimize a svg image using svgo
  *
  * @async
- * @param {Sharp} image Sharp wrapped input image
+ * @param {Buffer} image Input image
  * @param {LoaderOptions['svgo']} [options] Svgo options
  * @returns {Buffer} Optimized image
  */
