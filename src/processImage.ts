@@ -25,7 +25,7 @@ const processImage = async (
   let image = sharp(inputImage);
   const imageMetadata = await image.metadata();
 
-  // rotate image if necessairy
+  // rotate image if necessary
   if (imageMetadata.format !== 'svg') {
     image = image.rotate();
   }
@@ -70,6 +70,11 @@ const processImage = async (
 
   // for svg, return input image if it was not optimized
   if (imageMetadata.format === 'svg') {
+    return { data: inputImage, info: imageMetadata };
+  }
+
+  // make sure original sizes are served
+  if (!imageOptions.resize) {
     return { data: inputImage, info: imageMetadata };
   }
 
