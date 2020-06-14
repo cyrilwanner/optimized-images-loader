@@ -54,6 +54,7 @@
     "webpack": "^4.43.0"
   },
   "main": "lib/index.js",
+  "types": "images.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

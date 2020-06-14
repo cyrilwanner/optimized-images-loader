@@ -1,4 +1,4 @@
-export interface ImgSrc {
+type ImgSrc = {
   src: string;
   width: number;
   height: number;
@@ -6,7 +6,7 @@ export interface ImgSrc {
   toString(): string;
 }
 
-export interface ColorsSrc {
+type ColorsSrc = {
   src: string[];
   width: number;
   height: number;
