@@ -1,4 +1,4 @@
-# optimized-images-loader
+# optimized-images-loader [![npm version](https://badgen.net/npm/v/optimized-images-loader)](https://www.npmjs.com/package/optimized-images-loader) [![license](https://badgen.net/github/license/cyrilwanner/optimized-images-loader)](https://github.com/cyrilwanner/optimized-images-loader/blob/master/LICENSE) [![downloads](https://badgen.net/npm/dt/optimized-images-loader)](https://www.npmjs.com/package/optimized-images-loader)
 
 Features:
 - **Optimize** images on the fly using WebAssembly (runs in every environment)
@@ -50,8 +50,8 @@ module.exports = {
 | optimize | `true` | `boolean` | If this plugin should not optimized images, set this to `false`. You can still resize images, convert them to WebP and use other features in that case. |
 | cacheFolder | `'node_modules/optimized-images-loader/.cache'` | `string` | Images will be cached in this folder to avoid long build times. |
 | name | `'[name]-[contenthash].[ext]'` | `string` | File name of the images after they got processed. |
-| outputPath | `'static/chunks/images/'` | `string` | Images will be saved in this directory within the `.next` folder. |
-| publicPath | `'/_next/static/chunks/images/'` | `string` | The public path that should be used for image URLs. This can be used to serve the optimized image from a cloud storage service like S3. From version 2 on, next-optimized-images uses the [`assetPrefx` config of next.js](https://nextjs.org/docs/#cdn-support-with-asset-prefix) by default, but you can overwrite it with `publicPath` specially for images. |
+| outputPath | | `string` | Images will be saved in this directory instead of the default webpack outputPath. |
+| publicPath | | `string` | The public path that should be used for image URLs instead of the default webpack publicPath. |
 | mozjpeg | | `MozjpegOptions` | Specifies the options used to optimize jpeg images. All available options can be seen [here](https://www.npmjs.com/package/@wasm-codecs/mozjpeg#encodeoptions-encodeoptions). |
 | oxipng | | `OxipngOptions` | Specifies the options used to optimize png images. All available options can be seen [here](https://www.npmjs.com/package/@wasm-codecs/oxipng#encodeoptions-encodeoptions). |
 | webp | | `WebpOptions` | Specifies the options used to optimize webp images. All available options can be seen [here](https://sharp.pixelplumbing.com/api-output#webp). |
@@ -91,7 +91,7 @@ The image will now directly be included in your HTML without a data-uri or a ref
 
 #### ?webp
 
-If this `?webp` query parameter is specified, `next-optimized-images` automatically converts the image to the new WebP format.
+If this `?webp` query parameter is specified, `optimized-images-loader` automatically converts the image to the new WebP format.
 
 For browsers that don't yet support WebP, you may want to also provide a fallback using the `<picture>` tag or use the [`Img`](#img) component which does this out of the box:
 
@@ -185,52 +185,7 @@ export default () => (
 
 > Currently not supported
 
-If you need to style or animate your SVGs [?include](#?include) might be the wrong option, because that ends up in a lot of DOM elements, especially when using the SVG in list-items etc.
-
-```javascript
-import React from 'react';
-import MyIcon from './icons/my-icon.svg?sprite';
-
-export default () => (
-  <div>
-    my page..
-    <MyIcon />
-  </div>
-);
-```
-
-To also make this work for server-side rendering, you need to add these changes to your `_document.jsx` file (read [here](https://nextjs.org/docs/#custom-document) if you don't have this file yet):
-
-```javascript
-// ./pages/_document.js
-import Document, { Head, Main, NextScript } from 'next/document';
-import sprite from 'svg-sprite-loader/runtime/sprite.build';
-
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    const spriteContent = sprite.stringify();
-
-    return {
-      spriteContent,
-      ...initialProps,
-    };
-  }
-
-  render() {
-    return (
-      <html>
-        <Head>{/* your head if needed */}</Head>
-        <body>
-          <div dangerouslySetInnerHTML={{ __html: this.props.spriteContent }} />
-          <Main />
-          <NextScript />
-        </body>
-      </html>
-    );
-  }
-}
-```
+TODO: needs general documentation
 
 ## License
 
