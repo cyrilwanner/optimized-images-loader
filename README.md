@@ -1,10 +1,11 @@
 # optimized-images-loader [![npm version](https://badgen.net/npm/v/optimized-images-loader)](https://www.npmjs.com/package/optimized-images-loader) [![license](https://badgen.net/github/license/cyrilwanner/optimized-images-loader)](https://github.com/cyrilwanner/optimized-images-loader/blob/master/LICENSE) [![downloads](https://badgen.net/npm/dt/optimized-images-loader)](https://www.npmjs.com/package/optimized-images-loader)
 
 Features:
-- **Optimize** images on the fly using WebAssembly (runs in every environment)
+- **Optimize** images using WebAssembly (runs in every environment)
 - **Image manipulation** provided by various query params (resize, converting, low quality placeholders, ...)
 - **Build cache for images** for faster builds
-- **Convert to WebP** on the fly
+- **Convert to WebP** automatically during a webpack build
+- **Inline** small images automatically
 - ...
 
 ## Table of contents

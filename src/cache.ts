@@ -69,7 +69,7 @@ const getCacheFolder = async (loaderOptions: LoaderOptions): Promise<string> => 
  * @param {ImageOptions} imageOptions Image options
  * @returns {string} Hash
  */
-const getHash = (source: Buffer, imageOptions: ImageOptions): string => {
+export const getHash = (source: Buffer, imageOptions: ImageOptions): string => {
   const query = querystring.stringify(imageOptions as any); // eslint-disable-line
 
   return `${(getHashDigest as (input: Buffer) => string)(source)}-${(getHashDigest as (input: Buffer) => string)(
@@ -81,18 +81,15 @@ const getHash = (source: Buffer, imageOptions: ImageOptions): string => {
  * Retrieves an optimized image from cache if it exists
  *
  * @async
- * @param {Buffer} source Original image
- * @param {ImageOptions} imageOptions Image resource query
+ * @param {string} hash Cache hash
  * @param {LoaderOptions} loaderOptions Optimized images loader options
  * @returns {{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } } | null} Cached image or null if not present
  */
 export const getCache = async (
-  source: Buffer,
-  imageOptions: ImageOptions,
+  hash: string,
   loaderOptions: LoaderOptions,
 ): Promise<{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } } | null> => {
   const cacheFolder = await getCacheFolder(loaderOptions);
-  const hash = getHash(source, imageOptions);
 
   try {
     const options = JSON.parse((await fs.readFile(path.resolve(cacheFolder, `${hash}.json`))).toString());
@@ -118,6 +115,7 @@ export const getCache = async (
  * Writes an optimized image into the cache
  *
  * @async
+ * @param {string} hash Cache hash
  * @param {Buffer} source Original image
  * @param {Buffer | string | string[]} result Optimized image
  * @param {{ width?: number; height?: number; format?: string }} info Image information
@@ -125,6 +123,7 @@ export const getCache = async (
  * @param {LoaderOptions} loaderOptions Optimized images loader options
  */
 export const setCache = async (
+  hash: string,
   source: Buffer,
   result: Buffer | string | string[],
   { width, height, format }: { width?: number; height?: number; format?: string },
@@ -132,7 +131,6 @@ export const setCache = async (
   loaderOptions: LoaderOptions,
 ): Promise<void> => {
   const cacheFolder = await getCacheFolder(loaderOptions);
-  const hash = getHash(source, imageOptions);
 
   if (Buffer.isBuffer(result)) {
     await fs.writeFile(path.resolve(cacheFolder, hash), result);
