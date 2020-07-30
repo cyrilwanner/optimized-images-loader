@@ -55,7 +55,7 @@ const replaceName = (
 ): string => {
   return name
     .replace(/\[width\]/g, `${imageOptions.width || originalImageInfo.width}`)
-    .replace(/\[height\]/g, `${imageOptions.height}`);
+    .replace(/\[height\]/g, `${imageOptions.height || originalImageInfo.height}`);
 };
 
 /**
