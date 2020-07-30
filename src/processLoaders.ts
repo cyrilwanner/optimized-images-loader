@@ -41,6 +41,24 @@ const enrichResult = (
 };
 
 /**
+ * Replace additional placeholders in the file name
+ *
+ * @param {string} name File name pattern
+ * @param {{ width?: number; height?: number; format?: string }} originalImageInfo Metadata of original image
+ * @param {ImageOptions} imageOptions Image options
+ * @returns {string} Replaced file name
+ */
+const replaceName = (
+  name: string,
+  originalImageInfo: { width?: number; height?: number; format?: string },
+  imageOptions: ImageOptions,
+): string => {
+  return name
+    .replace(/\[width\]/g, `${imageOptions.width || originalImageInfo.width}`)
+    .replace(/\[height\]/g, `${imageOptions.height}`);
+};
+
+/**
  * Process further loaders (url-loader & file-loader)
  *
  * @param {loader.LoaderContext} context Optimized images loader context
@@ -74,6 +92,9 @@ const processLoaders = (
     ...loaderOptions,
     esModule: false,
   } as OptionObject;
+
+  // replace name
+  furtherLoaderOptions.name = replaceName(furtherLoaderOptions.name, originalImageInfo, imageOptions);
 
   // change extension for converted images
   if (imageOptions.convert && furtherLoaderOptions.name) {
