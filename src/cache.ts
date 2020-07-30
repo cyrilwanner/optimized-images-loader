@@ -83,12 +83,16 @@ export const getHash = (source: Buffer, imageOptions: ImageOptions): string => {
  * @async
  * @param {string} hash Cache hash
  * @param {LoaderOptions} loaderOptions Optimized images loader options
- * @returns {{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } } | null} Cached image or null if not present
+ * @returns {{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string }, imageOptions: ImageOptions } | null} Cached image or null if not present
  */
 export const getCache = async (
   hash: string,
   loaderOptions: LoaderOptions,
-): Promise<{ data: Buffer | string | string[]; info: { width?: number; height?: number; format?: string } } | null> => {
+): Promise<{
+  data: Buffer | string | string[];
+  info: { width?: number; height?: number; format?: string };
+  imageOptions: ImageOptions;
+} | null> => {
   const cacheFolder = await getCacheFolder(loaderOptions);
 
   try {
@@ -102,10 +106,10 @@ export const getCache = async (
     const data = await fs.readFile(path.resolve(cacheFolder, hash));
 
     if (options.isBuffer) {
-      return { data, info: options.info };
+      return { data, info: options.info, imageOptions: options.imageOptions };
     }
 
-    return { data: JSON.parse(data.toString()), info: options.info };
+    return { data: JSON.parse(data.toString()), info: options.info, imageOptions: options.imageOptions };
   } catch {
     return null;
   }
@@ -116,7 +120,6 @@ export const getCache = async (
  *
  * @async
  * @param {string} hash Cache hash
- * @param {Buffer} source Original image
  * @param {Buffer | string | string[]} result Optimized image
  * @param {{ width?: number; height?: number; format?: string }} info Image information
  * @param {ImageOptions} imageOptions Image options
@@ -124,7 +127,6 @@ export const getCache = async (
  */
 export const setCache = async (
   hash: string,
-  source: Buffer,
   result: Buffer | string | string[],
   { width, height, format }: { width?: number; height?: number; format?: string },
   imageOptions: ImageOptions,

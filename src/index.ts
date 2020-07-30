@@ -1,7 +1,7 @@
 import { loader } from 'webpack';
 import { getOptions } from 'loader-utils';
 import processImage from './processImage';
-import parseQuery from './parseQuery';
+import parseQuery, { ImageOptions } from './parseQuery';
 import { LoaderOptions } from './options';
 import processLoaders from './processLoaders';
 import { getCache, setCache, getHash } from './cache';
@@ -30,12 +30,19 @@ export default function optimizedImagesLoader(this: loader.LoaderContext, source
 
     if (cached) {
       result = cached;
+
+      // update image options from cache
+      if (cached.imageOptions) {
+        (Object.keys(cached.imageOptions) as Array<keyof ImageOptions>).forEach((option: keyof ImageOptions) => {
+          (imageOptions[option] as unknown) = cached.imageOptions[option];
+        });
+      }
     } else {
       // process image
       result = await processImage(source, imageOptions, loaderOptions);
 
       // cache processed image
-      setCache(cacheHash, source, result.data, result.info, imageOptions, loaderOptions);
+      setCache(cacheHash, result.data, result.info, imageOptions, loaderOptions);
     }
 
     // process further loaders
