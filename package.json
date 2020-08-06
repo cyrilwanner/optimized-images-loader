@@ -22,8 +22,8 @@
     "test:watch": "npm test -- --watch"
   },
   "dependencies": {
-    "@wasm-codecs/mozjpeg": "^1.0.0",
-    "@wasm-codecs/oxipng": "^1.0.0",
+    "@wasm-codecs/mozjpeg": "^1.0.1",
+    "@wasm-codecs/oxipng": "^1.0.1",
     "file-loader": "^6.0.0",
     "get-rgba-palette": "^2.0.1",
     "loader-utils": "^2.0.0",
