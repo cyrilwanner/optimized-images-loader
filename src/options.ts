@@ -12,6 +12,10 @@ export interface LoaderOptions {
   svgo?: Record<string, unknown>;
 }
 
+export interface OptionObject {
+  [key: string]: any; // eslint-disable-line
+}
+
 // default options for file- & url-loader
 export const defaultFurtherLoaderOptions = {
   name: '[name]-[contenthash].[ext]',

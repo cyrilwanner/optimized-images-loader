@@ -1,8 +1,7 @@
 import urlLoader from 'url-loader';
 import { loader } from 'webpack';
-import { OptionObject } from 'loader-utils';
 import { ImageOptions } from './parseQuery';
-import { defaultFurtherLoaderOptions } from './options';
+import { defaultFurtherLoaderOptions, OptionObject } from './options';
 
 /**
  * Enrich previous loader result with new information
