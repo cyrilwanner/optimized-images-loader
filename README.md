@@ -50,6 +50,7 @@ module.exports = {
 | limit | `8192` | `number` | Images smaller than this number (in bytes) will get inlined with a data-uri. |
 | optimize | `true` | `boolean` | If this plugin should not optimized images, set this to `false`. You can still resize images, convert them to WebP and use other features in that case. |
 | cacheFolder | `'node_modules/optimized-images-loader/.cache'` | `string` | Images will be cached in this folder to avoid long build times. |
+| includeStrategy | `string` | `'string'` | When using the [?include](#include) query param, it returns a string by default. By setting this value to `'react'`, it returns a React component instead (requires manually installing the additional `@svgr/core` package). |
 | name | `'[name]-[contenthash].[ext]'` | `string` | File name of the images after they got processed. Additionally to the [default placeholders](https://github.com/webpack-contrib/file-loader#placeholders), `[width]` and `[height]` are also available. |
 | outputPath | | `string` | Images will be saved in this directory instead of the default webpack outputPath. |
 | publicPath | | `string` | The public path that should be used for image URLs instead of the default webpack publicPath. |
@@ -89,6 +90,8 @@ This loader also provides a variety of query params to provide you even more opt
 #### ?include
 
 The image will now directly be included in your HTML without a data-uri or a reference to your file.
+
+By default, it will be included as a normal `string`. If you are in a React project and wish to transform it into a React component, set the [`includeStrategy`](#options) to `'react'` and run `npm install @svgr/core`.
 
 #### ?webp
 
