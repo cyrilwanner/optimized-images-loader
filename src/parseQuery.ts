@@ -10,6 +10,7 @@ export interface ImageOptions {
   forceInline?: boolean;
   forceUrl?: boolean;
   processLoaders?: boolean;
+  component?: 'react';
   lqip?: 'blur' | 'colors';
 }
 
@@ -45,6 +46,10 @@ const parseQuery = (rawQuery: string, loaderOptions: LoaderOptions): ImageOption
   // include raw image (used for svg)
   if (typeof query.include !== 'undefined') {
     options.processLoaders = false;
+
+    if (loaderOptions.includeStrategy === 'react') {
+      options.component = 'react';
+    }
   }
 
   // resize image

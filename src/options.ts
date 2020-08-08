@@ -6,11 +6,13 @@ import { WebpOptions } from 'sharp';
 export interface LoaderOptions {
   optimize?: boolean;
   cacheFolder?: string;
+  includeStrategy?: 'string' | 'react';
   mozjpeg?: MozjpegOptions;
   oxipng?: OxipngOptions;
   webp?: WebpOptions;
   gifsicle?: GifsicleOptions;
   svgo?: Record<string, unknown>;
+  svgr?: Record<string, unknown>;
 }
 
 export interface OptionObject {
