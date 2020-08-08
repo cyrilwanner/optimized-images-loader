@@ -36,7 +36,7 @@ const processImage = async (
   }
 
   // resize image
-  if (imageOptions.resize) {
+  if (imageOptions.resize && imageMetadata.format !== 'gif') {
     image = image.resize(imageOptions.width, imageOptions.height);
 
     // fill missing resize values
@@ -64,8 +64,11 @@ const processImage = async (
   }
 
   // optimize image
-  if (imageOptions.optimize && imageMetadata.format) {
-    return { data: await optimizeImage(image, inputImage, imageMetadata.format, loaderOptions), info: imageMetadata };
+  if (imageMetadata.format && (imageOptions.optimize || (imageMetadata.format === 'gif' && imageOptions.resize))) {
+    return {
+      data: await optimizeImage(image, inputImage, imageMetadata.format, imageOptions, loaderOptions),
+      info: imageMetadata,
+    };
   }
 
   // for svg, return input image if it was not optimized

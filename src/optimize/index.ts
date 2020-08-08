@@ -5,6 +5,7 @@ import optimizePng from './png';
 import optimizeWebp from './webp';
 import optimizeSvg from './svg';
 import optimizeGif from './gif';
+import { ImageOptions } from '../parseQuery';
 
 const sharpBasedOptimizers = {
   jpeg: {
@@ -19,7 +20,10 @@ const sharpBasedOptimizers = {
     handler: optimizeWebp,
     optionsKey: 'webp',
   },
-} as Record<string, { handler: (image: Sharp, options?: unknown) => Promise<Buffer>; optionsKey: string }>;
+} as Record<
+  string,
+  { handler: (image: Sharp, imageOptions: ImageOptions, options?: unknown) => Promise<Buffer>; optionsKey: string }
+>;
 
 const rawBufferBasedOptimizers = {
   svg: {
@@ -30,7 +34,10 @@ const rawBufferBasedOptimizers = {
     handler: optimizeGif,
     optionsKey: 'gifsicle',
   },
-} as Record<string, { handler: (image: Buffer, options?: unknown) => Promise<Buffer>; optionsKey: string }>;
+} as Record<
+  string,
+  { handler: (image: Buffer, imageOptions: ImageOptions, options?: unknown) => Promise<Buffer>; optionsKey: string }
+>;
 
 /**
  * Optimize the given input image if an optimizer exists for the image format
@@ -46,11 +53,13 @@ const optimizeImage = async (
   image: Sharp,
   rawImage: Buffer,
   format: string,
+  imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
 ): Promise<Buffer> => {
   if (sharpBasedOptimizers[format]) {
     return sharpBasedOptimizers[format].handler(
       image,
+      imageOptions,
       (loaderOptions as Record<string, unknown>)[sharpBasedOptimizers[format].optionsKey],
     );
   }
@@ -58,6 +67,7 @@ const optimizeImage = async (
   if (rawBufferBasedOptimizers[format]) {
     return rawBufferBasedOptimizers[format].handler(
       rawImage,
+      imageOptions,
       (loaderOptions as Record<string, unknown>)[rawBufferBasedOptimizers[format].optionsKey],
     );
   }
