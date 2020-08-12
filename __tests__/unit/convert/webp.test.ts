@@ -6,7 +6,7 @@ describe('convert/webp', () => {
   it('converts a jpg image to webp', async () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
     const originalMetadata = await original.metadata();
-    const webp = await convert(original, 'webp', {});
+    const webp = await convert(original, 'webp', { cacheFolder: null });
     const webpMetadata = await sharp(webp).metadata();
 
     expect(originalMetadata.format).toBe('jpeg');
@@ -19,7 +19,7 @@ describe('convert/webp', () => {
   it('converts a png image to webp', async () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
     const originalMetadata = await original.metadata();
-    const webp = await convert(original, 'webp', {});
+    const webp = await convert(original, 'webp', { cacheFolder: null });
     const webpMetadata = await sharp(webp).metadata();
 
     expect(originalMetadata.format).toBe('png');
@@ -32,7 +32,7 @@ describe('convert/webp', () => {
   it('preserves the image in case of a wrong target format', async () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
     const originalMetadata = await original.metadata();
-    const result = await convert(original, 'invalid', {});
+    const result = await convert(original, 'invalid', { cacheFolder: null });
     const resultMetadata = await sharp(result).metadata();
 
     expect(originalMetadata.format).toBe('png');
@@ -44,11 +44,11 @@ describe('convert/webp', () => {
 
   it('respects options', async () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
-    const noOptions = await convert(original, 'webp', {});
+    const noOptions = await convert(original, 'webp', { cacheFolder: null });
     const noOptionsMetadata = await sharp(noOptions).metadata();
-    const lossless = await convert(original, 'webp', { webp: { lossless: true } });
+    const lossless = await convert(original, 'webp', { cacheFolder: null, webp: { lossless: true } });
     const losslessMetadata = await sharp(lossless).metadata();
-    const badQuality = await convert(original, 'webp', { webp: { quality: 20 } });
+    const badQuality = await convert(original, 'webp', { cacheFolder: null, webp: { quality: 20 } });
     const badQualityMetadata = await sharp(badQuality).metadata();
 
     expect(losslessMetadata.size).toBeGreaterThan(noOptionsMetadata.size * 1.5);

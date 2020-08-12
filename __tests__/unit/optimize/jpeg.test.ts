@@ -7,7 +7,13 @@ describe('optimize/jpeg', () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
     const originalBuffer = await original.toBuffer();
     const originalMetadata = await original.metadata();
-    const optimized = await optimize(original, originalBuffer, 'jpeg', { optimize: true, resize: false }, {});
+    const optimized = await optimize(
+      original,
+      originalBuffer,
+      'jpeg',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const optimizedMetadata = await sharp(optimized).metadata();
 
     expect(originalMetadata.format).toBe('jpeg');
@@ -20,14 +26,20 @@ describe('optimize/jpeg', () => {
   it('respects options', async () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
     const originalBuffer = await original.toBuffer();
-    const noOptions = await optimize(original, originalBuffer, 'jpeg', { optimize: true, resize: false }, {});
+    const noOptions = await optimize(
+      original,
+      originalBuffer,
+      'jpeg',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const lowQuality = await optimize(
       original,
       originalBuffer,
       'jpeg',
       { optimize: true, resize: false },
-      { mozjpeg: { quality: 20 } },
+      { cacheFolder: null, mozjpeg: { quality: 20 } },
     );
     const lowQualityMetadata = await sharp(lowQuality).metadata();
 

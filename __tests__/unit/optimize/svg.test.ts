@@ -7,7 +7,13 @@ describe('optimize/svg', () => {
   it('optimizes a svg image', async () => {
     const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.svg'));
     const originalMetadata = await sharp(original).metadata();
-    const optimized = await optimize(sharp(original), original, 'svg', { optimize: true, resize: false }, {});
+    const optimized = await optimize(
+      sharp(original),
+      original,
+      'svg',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const optimizedMetadata = await sharp(optimized).metadata();
 
     expect(originalMetadata.format).toBe('svg');
@@ -17,7 +23,13 @@ describe('optimize/svg', () => {
 
   it('respects options', async () => {
     const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.svg'));
-    const noOptions = await optimize(sharp(original), original, 'svg', { optimize: true, resize: false }, {});
+    const noOptions = await optimize(
+      sharp(original),
+      original,
+      'svg',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const lessOptimization = await optimize(
       sharp(original),
@@ -25,6 +37,7 @@ describe('optimize/svg', () => {
       'svg',
       { optimize: true, resize: false },
       {
+        cacheFolder: null,
         svgo: {
           plugins: [
             { cleanupAttrs: false },

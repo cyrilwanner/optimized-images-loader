@@ -14,7 +14,7 @@ import { getLoaderVersion } from './util';
  * @param {string} cacheFolder Cache folder
  * @returns {boolean} Whether the cache folder is valid
  */
-const isValidCacheFolder = async (cacheFolder: string): Promise<boolean> => {
+export const isValidCacheFolder = async (cacheFolder: string): Promise<boolean> => {
   // try accessing the parent folder
   try {
     await fs.access(path.dirname(cacheFolder));
@@ -44,7 +44,7 @@ const isValidCacheFolder = async (cacheFolder: string): Promise<boolean> => {
  * @param {LoaderOptions} loaderOptions Optimized images loader options
  * @returns {string} Cache folder path
  */
-const getCacheFolder = async (loaderOptions: LoaderOptions): Promise<string> => {
+export const getCacheFolder = async (loaderOptions: LoaderOptions): Promise<string> => {
   let cacheFolder = loaderOptions.cacheFolder || path.resolve(__dirname, '..', '.cache');
 
   if (await isValidCacheFolder(cacheFolder)) {
@@ -93,6 +93,10 @@ export const getCache = async (
   info: { width?: number; height?: number; format?: string };
   imageOptions: ImageOptions;
 } | null> => {
+  if (loaderOptions.cacheFolder === null) {
+    return null;
+  }
+
   const cacheFolder = await getCacheFolder(loaderOptions);
 
   try {
@@ -132,6 +136,10 @@ export const setCache = async (
   imageOptions: ImageOptions,
   loaderOptions: LoaderOptions,
 ): Promise<void> => {
+  if (loaderOptions.cacheFolder === null) {
+    return;
+  }
+
   const cacheFolder = await getCacheFolder(loaderOptions);
 
   if (Buffer.isBuffer(result)) {

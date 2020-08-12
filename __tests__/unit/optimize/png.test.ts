@@ -9,7 +9,13 @@ describe('optimize/png', () => {
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
     const originalBuffer = await original.toBuffer();
     const originalMetadata = await original.metadata();
-    const optimized = await optimize(original, originalBuffer, 'png', { optimize: true, resize: false }, {});
+    const optimized = await optimize(
+      original,
+      originalBuffer,
+      'png',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const optimizedMetadata = await sharp(optimized).metadata();
 
     expect(originalMetadata.format).toBe('png');
@@ -24,14 +30,20 @@ describe('optimize/png', () => {
 
     const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
     const originalBuffer = await original.toBuffer();
-    const noOptions = await optimize(original, originalBuffer, 'png', { optimize: true, resize: false }, {});
+    const noOptions = await optimize(
+      original,
+      originalBuffer,
+      'png',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const lowLevel = await optimize(
       original,
       originalBuffer,
       'png',
       { optimize: true, resize: false },
-      { oxipng: { level: 0 } },
+      { cacheFolder: null, oxipng: { level: 0 } },
     );
     const lowLevelMetadata = await sharp(lowLevel).metadata();
 

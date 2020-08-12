@@ -12,7 +12,7 @@ describe('optimize/webp', () => {
       originalBuffer,
       'webp',
       { optimize: true, resize: false },
-      { webp: { quality: 70 } },
+      { cacheFolder: null, webp: { quality: 70 } },
     );
     const optimizedMetadata = await sharp(optimized).metadata();
 
@@ -31,7 +31,7 @@ describe('optimize/webp', () => {
       originalBuffer,
       'webp',
       { optimize: true, resize: false },
-      { webp: { quality: 70 } },
+      { cacheFolder: null, webp: { quality: 70 } },
     );
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const lowQuality = await optimize(
@@ -39,7 +39,7 @@ describe('optimize/webp', () => {
       originalBuffer,
       'webp',
       { optimize: true, resize: false },
-      { webp: { quality: 20 } },
+      { cacheFolder: null, webp: { quality: 20 } },
     );
     const lowQualityMetadata = await sharp(lowQuality).metadata();
     const lossless = await optimize(
@@ -47,7 +47,7 @@ describe('optimize/webp', () => {
       originalBuffer,
       'webp',
       { optimize: true, resize: false },
-      { webp: { quality: 70, lossless: true } },
+      { cacheFolder: null, webp: { quality: 70, lossless: true } },
     );
     const losslessMetadata = await sharp(lossless).metadata();
 

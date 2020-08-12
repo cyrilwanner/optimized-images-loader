@@ -7,7 +7,13 @@ describe('optimize/gif', () => {
   it('optimizes a gif image', async () => {
     const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.gif'));
     const originalMetadata = await sharp(original).metadata();
-    const optimized = await optimize(sharp(original), original, 'gif', { optimize: true, resize: false }, {});
+    const optimized = await optimize(
+      sharp(original),
+      original,
+      'gif',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const optimizedMetadata = await sharp(optimized).metadata();
 
     expect(originalMetadata.format).toBe('gif');
@@ -25,7 +31,7 @@ describe('optimize/gif', () => {
       original,
       'gif',
       { optimize: true, resize: true, width: 75, height: 75 },
-      {},
+      { cacheFolder: null },
     );
     const optimizedMetadata = await sharp(optimized).metadata();
 
@@ -38,7 +44,13 @@ describe('optimize/gif', () => {
   it('resizes a gif image with only a width given', async () => {
     const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'medium.gif'));
     const originalMetadata = await sharp(original).metadata();
-    const optimized = await optimize(sharp(original), original, 'gif', { optimize: true, resize: true, width: 75 }, {});
+    const optimized = await optimize(
+      sharp(original),
+      original,
+      'gif',
+      { optimize: true, resize: true, width: 75 },
+      { cacheFolder: null },
+    );
     const optimizedMetadata = await sharp(optimized).metadata();
 
     expect(originalMetadata.format).toBe('gif');
@@ -55,7 +67,7 @@ describe('optimize/gif', () => {
       original,
       'gif',
       { optimize: true, resize: true, height: 50 },
-      {},
+      { cacheFolder: null },
     );
     const optimizedMetadata = await sharp(optimized).metadata();
 
@@ -67,14 +79,20 @@ describe('optimize/gif', () => {
 
   it('respects options', async () => {
     const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.gif'));
-    const noOptions = await optimize(sharp(original), original, 'gif', { optimize: true, resize: false }, {});
+    const noOptions = await optimize(
+      sharp(original),
+      original,
+      'gif',
+      { optimize: true, resize: false },
+      { cacheFolder: null },
+    );
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const smallOptimizationLevel = await optimize(
       sharp(original),
       original,
       'gif',
       { optimize: true, resize: false },
-      { gifsicle: { optimizationLevel: 1 } },
+      { cacheFolder: null, gifsicle: { optimizationLevel: 1 } },
     );
     const smallOptimizationLevelMetadata = await sharp(smallOptimizationLevel).metadata();
     const limitedColors = await optimize(
@@ -82,7 +100,7 @@ describe('optimize/gif', () => {
       original,
       'gif',
       { optimize: true, resize: false },
-      { gifsicle: { colors: 32 } },
+      { cacheFolder: null, gifsicle: { colors: 32 } },
     );
     const limitedColorsMetadata = await sharp(limitedColors).metadata();
 
