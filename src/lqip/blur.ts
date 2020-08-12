@@ -2,7 +2,10 @@ import { ImageOptions } from '../parseQuery';
 
 /* eslint-disable no-param-reassign */
 
-const calculateBlurOptions = (imageInfo: { width?: number; height?: number }, imageOptions: ImageOptions): void => {
+const calculateBlurOptions = (
+  imageInfo: { width?: number; height?: number },
+  imageOptions: ImageOptions,
+): ImageOptions => {
   if (!imageInfo.width || !imageInfo.height) {
     imageOptions.width = 10;
     imageOptions.height = 10;
@@ -13,6 +16,8 @@ const calculateBlurOptions = (imageInfo: { width?: number; height?: number }, im
     imageOptions.height = 10;
     imageOptions.width = Math.round((10 / imageInfo.height) * imageInfo.width);
   }
+
+  return imageOptions;
 };
 
 export default calculateBlurOptions;
