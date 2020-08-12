@@ -41,4 +41,17 @@ describe('convert/webp', () => {
     expect(resultMetadata.width).toBe(originalMetadata.width);
     expect(resultMetadata.height).toBe(originalMetadata.height);
   });
+
+  it('respects options', async () => {
+    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const noOptions = await convert(original, 'webp', {});
+    const noOptionsMetadata = await sharp(noOptions).metadata();
+    const lossless = await convert(original, 'webp', { webp: { lossless: true } });
+    const losslessMetadata = await sharp(lossless).metadata();
+    const badQuality = await convert(original, 'webp', { webp: { quality: 20 } });
+    const badQualityMetadata = await sharp(badQuality).metadata();
+
+    expect(losslessMetadata.size).toBeGreaterThan(noOptionsMetadata.size * 1.5);
+    expect(badQualityMetadata.size).toBeGreaterThan(noOptionsMetadata.size * 0.5);
+  });
 });
