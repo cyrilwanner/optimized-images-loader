@@ -5,7 +5,7 @@ import optimize from '../../../lib/optimize';
 
 describe('optimize/svg', () => {
   it('optimizes a svg image', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.svg'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'small.svg'));
     const originalMetadata = await sharp(original).metadata();
     const optimized = await optimize(
       sharp(original),
@@ -22,7 +22,7 @@ describe('optimize/svg', () => {
   });
 
   it('respects options', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.svg'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'small.svg'));
     const noOptions = await optimize(
       sharp(original),
       original,

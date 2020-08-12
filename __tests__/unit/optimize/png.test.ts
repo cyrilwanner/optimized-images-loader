@@ -6,7 +6,7 @@ describe('optimize/png', () => {
   it('optimizes a png image', async () => {
     jest.setTimeout(30000);
 
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.png'));
     const originalBuffer = await original.toBuffer();
     const originalMetadata = await original.metadata();
     const optimized = await optimize(
@@ -28,7 +28,7 @@ describe('optimize/png', () => {
   it('respects options', async () => {
     jest.setTimeout(30000);
 
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.png'));
     const originalBuffer = await original.toBuffer();
     const noOptions = await optimize(
       original,

@@ -4,7 +4,7 @@ import optimize from '../../../lib/optimize';
 
 describe('optimize/jpeg', () => {
   it('optimizes a jpeg image', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.jpg'));
     const originalBuffer = await original.toBuffer();
     const originalMetadata = await original.metadata();
     const optimized = await optimize(
@@ -24,7 +24,7 @@ describe('optimize/jpeg', () => {
   });
 
   it('respects options', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.jpg'));
     const originalBuffer = await original.toBuffer();
     const noOptions = await optimize(
       original,

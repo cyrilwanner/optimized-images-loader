@@ -5,7 +5,7 @@ import optimize from '../../../lib/optimize';
 
 describe('optimize/gif', () => {
   it('optimizes a gif image', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.gif'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'small.gif'));
     const originalMetadata = await sharp(original).metadata();
     const optimized = await optimize(
       sharp(original),
@@ -24,7 +24,7 @@ describe('optimize/gif', () => {
   });
 
   it('resizes a gif image with both dimensions given', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'medium.gif'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.gif'));
     const originalMetadata = await sharp(original).metadata();
     const optimized = await optimize(
       sharp(original),
@@ -42,7 +42,7 @@ describe('optimize/gif', () => {
   });
 
   it('resizes a gif image with only a width given', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'medium.gif'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.gif'));
     const originalMetadata = await sharp(original).metadata();
     const optimized = await optimize(
       sharp(original),
@@ -60,7 +60,7 @@ describe('optimize/gif', () => {
   });
 
   it('resizes a gif image with only a height given', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'medium.gif'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.gif'));
     const originalMetadata = await sharp(original).metadata();
     const optimized = await optimize(
       sharp(original),
@@ -78,7 +78,7 @@ describe('optimize/gif', () => {
   });
 
   it('respects options', async () => {
-    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'images', 'small.gif'));
+    const original = fs.readFileSync(path.resolve(__dirname, '..', '..', 'resources', 'images', 'small.gif'));
     const noOptions = await optimize(
       sharp(original),
       original,

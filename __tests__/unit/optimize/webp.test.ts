@@ -4,7 +4,7 @@ import optimize from '../../../lib/optimize';
 
 describe('optimize/webp', () => {
   it('optimizes a webp image', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.webp'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.webp'));
     const originalBuffer = await original.toBuffer();
     const originalMetadata = await original.metadata();
     const optimized = await optimize(
@@ -24,7 +24,7 @@ describe('optimize/webp', () => {
   });
 
   it('respects options', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.webp'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.webp'));
     const originalBuffer = await original.toBuffer();
     const noOptions = await optimize(
       original,

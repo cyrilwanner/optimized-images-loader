@@ -14,7 +14,7 @@ describe('lqip/colors', () => {
   });
 
   it('extracts the dominant color of a one color image', async () => {
-    const image = sharp(path.resolve(__dirname, '..', '..', 'images', 'green.jpg'));
+    const image = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'green.jpg'));
     const colors = await getDominantColors(image);
 
     expect(colors.length).toBeGreaterThanOrEqual(1);
@@ -22,7 +22,7 @@ describe('lqip/colors', () => {
   });
 
   it('extracts the dominant colors of a jpg image', async () => {
-    const image = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const image = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.jpg'));
     const colors = await getDominantColors(image);
 
     expect(colors.length).toBeGreaterThanOrEqual(5);
@@ -34,7 +34,7 @@ describe('lqip/colors', () => {
   });
 
   it('extracts the dominant colors of a png image', async () => {
-    const image = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
+    const image = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.png'));
     const colors = await getDominantColors(image);
 
     expect(colors.length).toBeGreaterThanOrEqual(5);

@@ -4,7 +4,7 @@ import convert from '../../../lib/convert';
 
 describe('convert/webp', () => {
   it('converts a jpg image to webp', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.jpg'));
     const originalMetadata = await original.metadata();
     const webp = await convert(original, 'webp', { cacheFolder: null });
     const webpMetadata = await sharp(webp).metadata();
@@ -17,7 +17,7 @@ describe('convert/webp', () => {
   });
 
   it('converts a png image to webp', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.png'));
     const originalMetadata = await original.metadata();
     const webp = await convert(original, 'webp', { cacheFolder: null });
     const webpMetadata = await sharp(webp).metadata();
@@ -30,7 +30,7 @@ describe('convert/webp', () => {
   });
 
   it('preserves the image in case of a wrong target format', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.png'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.png'));
     const originalMetadata = await original.metadata();
     const result = await convert(original, 'invalid', { cacheFolder: null });
     const resultMetadata = await sharp(result).metadata();
@@ -43,7 +43,7 @@ describe('convert/webp', () => {
   });
 
   it('respects options', async () => {
-    const original = sharp(path.resolve(__dirname, '..', '..', 'images', 'medium.jpg'));
+    const original = sharp(path.resolve(__dirname, '..', '..', 'resources', 'images', 'medium.jpg'));
     const noOptions = await convert(original, 'webp', { cacheFolder: null });
     const noOptionsMetadata = await sharp(noOptions).metadata();
     const lossless = await convert(original, 'webp', { cacheFolder: null, webp: { lossless: true } });
