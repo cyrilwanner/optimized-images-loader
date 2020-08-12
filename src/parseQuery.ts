@@ -76,6 +76,7 @@ const parseQuery = (rawQuery: string, loaderOptions: LoaderOptions): ImageOption
 
   // return dominant colors instead of image
   if (typeof query.colors !== 'undefined' || typeof query['lqip-colors'] !== 'undefined') {
+    options.optimize = false;
     options.processLoaders = false;
     options.lqip = 'colors';
   }

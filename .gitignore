@@ -13,3 +13,4 @@ npm-debug.log*
 lib
 tmp
 .cache
+__tests__/resources/cache*
