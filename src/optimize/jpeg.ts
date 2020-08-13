@@ -8,12 +8,14 @@ import { ImageOptions } from '../parseQuery';
  *
  * @async
  * @param {Sharp} image Sharp wrapped input image
+ * @param {Buffer} imageBuffer Buffer of image
  * @param {ImageOptions} imageOptions Image options
  * @param {LoaderOptions['mozjpeg']} [options] Mozjpeg options
  * @returns {Buffer} Optimized image
  */
 const optimizeJpeg = async (
   image: Sharp,
+  imageBuffer: Buffer,
   imageOptions: ImageOptions,
   options?: LoaderOptions['mozjpeg'],
 ): Promise<Buffer> => {

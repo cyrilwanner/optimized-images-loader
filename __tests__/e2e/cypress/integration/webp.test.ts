@@ -1,0 +1,149 @@
+describe('webp', () => {
+  before(() => {
+    cy.visit('/webp');
+    cy.title().should('equal', 'webp');
+  });
+
+  it('url-auto', () => {
+    cy.assertImage(
+      'url-auto',
+      { name: 'tree-original', maxSize: 1 },
+      { format: 'webp', width: 1024, height: 772 },
+      { type: 'url', mimeType: 'image/webp', width: 1024, height: 772 },
+    );
+  });
+
+  it('url-force', () => {
+    cy.assertImage(
+      'url-force',
+      { name: 'cat-original', maxSize: 0.8 },
+      { format: 'webp', width: 100, height: 67 },
+      { type: 'url', mimeType: 'image/webp', width: 100, height: 67 },
+    );
+  });
+
+  it('url-force-original', () => {
+    cy.assertImage(
+      'url-force-original',
+      { name: 'inline-auto', minSize: 1.2 },
+      { format: 'webp', width: 100, height: 67 },
+      { type: 'url', mimeType: 'image/webp', width: 100, height: 67 },
+    );
+  });
+
+  it('inline-auto', () => {
+    cy.assertImage(
+      'inline-auto',
+      { name: 'cat-original', maxSize: 0.8 },
+      { format: 'webp', width: 100, height: 67 },
+      { type: 'inline', mimeType: 'image/webp', width: 100, height: 67 },
+    );
+  });
+
+  it('inline-force', () => {
+    cy.assertImage(
+      'inline-force',
+      { name: 'tree-original', maxSize: 1.5 },
+      { format: 'webp', width: 1024, height: 772 },
+      { type: 'inline', mimeType: 'image/webp', width: 1024, height: 772 },
+    );
+  });
+
+  it('inline-force-original', () => {
+    cy.assertImage(
+      'inline-force-original',
+      { name: 'tree-original', minSize: 1.0 },
+      { format: 'webp', width: 1024, height: 772 },
+      { type: 'inline', mimeType: 'image/webp', width: 1024, height: 772 },
+    );
+  });
+
+  it('resize-width', () => {
+    cy.assertImage(
+      'resize-width',
+      undefined,
+      { format: 'webp', width: 500, height: 377 },
+      { type: 'url', mimeType: 'image/webp', width: 500, height: 377 },
+    );
+  });
+
+  it('resize-height', () => {
+    cy.assertImage(
+      'resize-height',
+      undefined,
+      { format: 'webp', width: 398, height: 300 },
+      { type: 'url', mimeType: 'image/webp', width: 398, height: 300 },
+    );
+  });
+
+  it('resize-both', () => {
+    cy.assertImage(
+      'resize-both',
+      undefined,
+      { format: 'webp', width: 400, height: 400 },
+      { type: 'url', mimeType: 'image/webp', width: 400, height: 400 },
+    );
+  });
+
+  it('lqip', () => {
+    cy.assertImage(
+      'lqip',
+      { name: 'tree-original', maxSize: 0.05 },
+      { format: 'webp', width: 10, height: 8 },
+      { type: 'inline', mimeType: 'image/webp', width: 10, height: 8 },
+    );
+  });
+
+  it('lqip-url', () => {
+    cy.assertImage(
+      'lqip-url',
+      { name: 'tree-original', maxSize: 0.05 },
+      { format: 'webp', width: 10, height: 8 },
+      { type: 'url', mimeType: 'image/webp', width: 10, height: 8 },
+    );
+  });
+
+  it('colors', () => {
+    cy.assertImage('colors', undefined, ['#5698c2', '#cddad7', '#666744', '#1b2021', '#94dcfa']);
+
+    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
+    cy.get('[data-name="colors"] .wrapper > div')
+      .eq(0)
+      .should('have.css', 'background-color')
+      .should('equal', 'rgb(86, 152, 194)');
+    cy.get('[data-name="colors"] .wrapper > div')
+      .eq(1)
+      .should('have.css', 'background-color')
+      .should('equal', 'rgb(205, 218, 215)');
+    cy.get('[data-name="colors"] .wrapper > div')
+      .eq(2)
+      .should('have.css', 'background-color')
+      .should('equal', 'rgb(102, 103, 68)');
+    cy.get('[data-name="colors"] .wrapper > div')
+      .eq(3)
+      .should('have.css', 'background-color')
+      .should('equal', 'rgb(27, 32, 33)');
+    cy.get('[data-name="colors"] .wrapper > div')
+      .eq(4)
+      .should('have.css', 'background-color')
+      .should('equal', 'rgb(148, 220, 250)');
+  });
+
+  it('tree-original', () => {
+    cy.assertImage(
+      'tree-original',
+      { name: 'tree-original', maxSize: 1, minSize: 1 },
+      { format: 'webp', width: 1024, height: 772 },
+      { type: 'url', mimeType: 'image/webp', width: 1024, height: 772 },
+    );
+  });
+
+  it('cat-original', () => {
+    cy.assertImage(
+      'cat-original',
+      { name: 'cat-original', maxSize: 1, minSize: 1 },
+      { format: 'webp', width: 100, height: 67 },
+      { type: 'inline', mimeType: 'image/webp', width: 100, height: 67 },
+    );
+  });
+});

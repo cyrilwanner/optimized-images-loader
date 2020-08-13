@@ -22,7 +22,10 @@ const sharpBasedOptimizers = {
   },
 } as Record<
   string,
-  { handler: (image: Sharp, imageOptions: ImageOptions, options?: unknown) => Promise<Buffer>; optionsKey: string }
+  {
+    handler: (image: Sharp, imageBuffer: Buffer, imageOptions: ImageOptions, options?: unknown) => Promise<Buffer>;
+    optionsKey: string;
+  }
 >;
 
 const rawBufferBasedOptimizers = {
@@ -59,6 +62,7 @@ const optimizeImage = async (
   if (sharpBasedOptimizers[format]) {
     return sharpBasedOptimizers[format].handler(
       image,
+      rawImage,
       imageOptions,
       (loaderOptions as Record<string, unknown>)[sharpBasedOptimizers[format].optionsKey],
     );
