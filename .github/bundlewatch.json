@@ -5,7 +5,7 @@
       "compression": "none"
     },
     {
-      "path": "./__tests__/e2e/**/out/*.*",
+      "path": "./__tests__/e2e/web/**/out/*.*",
       "compression": "none"
     }
   ]

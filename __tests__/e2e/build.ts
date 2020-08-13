@@ -6,7 +6,7 @@ import { getTests } from './utils';
   try {
     await Promise.all(
       tests.map((test) => {
-        const builder = require(`./${test}/build`).default; // eslint-disable-line
+        const builder = require(`./web/${test}/build`).default; // eslint-disable-line
         return builder();
       }),
     );

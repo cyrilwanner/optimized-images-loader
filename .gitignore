@@ -15,3 +15,5 @@ tmp
 .cache
 __tests__/resources/cache*
 __tests__/e2e/**/out
+__tests__/e2e/cypress/videos
+__tests__/e2e/cypress/screenshots

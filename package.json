@@ -22,7 +22,10 @@
     "test:unit": "jest",
     "test:unit:watch": "npm test -- --watch",
     "test:e2e": "ts-node-script __tests__/e2e/run",
-    "pretest:e2e": "ts-node-script __tests__/e2e/build"
+    "test:e2e:watch": "WATCH=true ts-node-script __tests__/e2e/run",
+    "pretest:e2e": "ts-node-script __tests__/e2e/build",
+    "test:e2e:cypress": "cd __tests__/e2e && cypress run",
+    "test:e2e:cypress:watch": "cd __tests__/e2e && cypress open"
   },
   "dependencies": {
     "@wasm-codecs/gifsicle": "^1.0.0",
@@ -51,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
     "babel-loader": "^8.1.0",
+    "cypress": "^4.12.1",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",

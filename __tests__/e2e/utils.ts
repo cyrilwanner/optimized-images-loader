@@ -8,12 +8,12 @@ export const buildWepback = async (
   testName: string,
   loaderOptions: Record<string, unknown> = {},
 ): Promise<webpack.Stats> => {
-  rimraf.sync(path.resolve(__dirname, testName, 'out'));
+  rimraf.sync(path.resolve(__dirname, 'web', testName, 'out'));
 
   const compiler = webpack({
-    entry: path.resolve(__dirname, testName, 'src', 'index.ts'),
+    entry: path.resolve(__dirname, 'web', testName, 'src', 'index.ts'),
     output: {
-      path: path.resolve(__dirname, testName, 'out'),
+      path: path.resolve(__dirname, 'web', testName, 'out'),
     },
     module: {
       rules: [
@@ -42,7 +42,7 @@ export const buildWepback = async (
     plugins: [
       new HtmlWebpackPlugin({
         title: testName,
-        template: path.resolve(__dirname, 'index.ejs'),
+        template: path.resolve(__dirname, 'web', 'index.ejs'),
       }),
     ],
     mode: 'production',
@@ -65,7 +65,7 @@ export const buildWepback = async (
 
 export const getTests = (): string[] => {
   return fs
-    .readdirSync(__dirname, { withFileTypes: true })
+    .readdirSync(path.resolve(__dirname, 'web'), { withFileTypes: true })
     .filter((file) => file.isDirectory())
     .map((file) => file.name);
 };
