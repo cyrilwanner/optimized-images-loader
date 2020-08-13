@@ -1,32 +1,24 @@
-export const getImageSize = async (img: Element): Promise<number> => {
-  let src = img.getAttribute('src');
+export const getImageInfo = async (img: Element): Promise<{ size: number; mimeType: string }> => {
+  const src = img.getAttribute('src');
 
   if (!src) {
     throw new Error('No image src set');
   }
 
-  if (!src && img.innerHTML) {
-    return Promise.resolve(img.innerHTML.length);
-  }
-
   if (src.startsWith('data:')) {
-    return Promise.resolve(src.length);
+    return Promise.resolve({
+      mimeType: src.split(';')[0].split(':')[1],
+      size: src.length,
+    });
   }
 
-  src = window.location.href + src;
+  const res = await fetch(src);
+  const mimeType = res.headers.get('Content-Type') || 'unknown';
 
-  if (performance.getEntriesByName(src)[0]) {
-    return Promise.resolve((performance.getEntriesByName(src)[0] as any).transferSize); // eslint-disable-line
-  }
-
-  return new Promise((resolve) => {
-    const interval = setInterval(() => {
-      if (performance.getEntriesByName(src as string)[0]) {
-        clearInterval(interval);
-        resolve((performance.getEntriesByName(src as string)[0] as any).transferSize); // eslint-disable-line
-      }
-    }, 500);
-  });
+  return {
+    mimeType,
+    size: (await res.arrayBuffer()).byteLength,
+  };
 };
 
 export const addImage = async (name: string, src: ImgSrc): Promise<void> => {
@@ -47,9 +39,19 @@ export const addImage = async (name: string, src: ImgSrc): Promise<void> => {
 ${JSON.stringify(src, replacer, 4)}
     </pre>
     <pre class="result"></pre>
-    <img src="${src}" alt="${name}" />
+    ${
+      Array.isArray(src)
+        ? `<div class="wrapper" style="display: flex">${src
+            .map((color) => `<div style="flex: 1; height: 100px; background: ${color}"></div>`)
+            .join('')}</div>`
+        : `<img src="${src}" alt="${name}" />`
+    }
   `;
   document.body.appendChild(wrapper);
+
+  if (Array.isArray(src)) {
+    return;
+  }
 
   // get the actual dom node
   const img = document.querySelector(`[data-name="${name}"] img`);
@@ -57,13 +59,16 @@ ${JSON.stringify(src, replacer, 4)}
     throw new Error('Created image could not be found');
   }
 
-  const size = await getImageSize(img);
-  const result = {
-    width: img.getBoundingClientRect().width,
-    height: img.getBoundingClientRect().height,
-    size,
-    type: img.getAttribute('src')?.startsWith('data:') ? 'inline' : 'url',
-  };
+  const info = await getImageInfo(img);
+  setTimeout(() => {
+    const result = {
+      width: img.getBoundingClientRect().width,
+      height: img.getBoundingClientRect().height,
+      size: info.size,
+      mimeType: info.mimeType,
+      type: img.getAttribute('src')?.startsWith('data:') ? 'inline' : 'url',
+    };
 
-  img.parentElement!.querySelector('.result')!.innerHTML = JSON.stringify(result, replacer, 4); // eslint-disable-line
+    img.parentElement!.querySelector('.result')!.innerHTML = JSON.stringify(result, replacer, 4); // eslint-disable-line
+  }, 100);
 };
