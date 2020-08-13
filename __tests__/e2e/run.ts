@@ -19,9 +19,14 @@ tests.forEach((test) => {
 app.listen(port, () => {
   console.log(`Tests available at http://localhost:${port}`); // eslint-disable-line
 
-  const cypress = exec(`FORCE_COLOR=1 npm run test:e2e:cypress${process.env.WATCH === 'true' ? ':watch' : ''}`, {
-    cwd: path.resolve(__dirname, '..', '..'),
-  });
+  const cypress = exec(
+    `FORCE_COLOR=1 npm run test:e2e:cypress${process.env.WATCH === 'true' ? ':watch' : ''}${
+      process.env.CYPRESS_RECORD_KEY ? ` -- --record --key ${process.env.CYPRESS_RECORD_KEY}` : ''
+    }`,
+    {
+      cwd: path.resolve(__dirname, '..', '..'),
+    },
+  );
 
   cypress.on('exit', (code: number) => process.exit(code));
   cypress.stdout?.pipe(process.stdout);
