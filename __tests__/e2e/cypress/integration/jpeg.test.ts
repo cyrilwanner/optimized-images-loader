@@ -1,6 +1,7 @@
 describe('jpeg', () => {
   before(() => {
     cy.visit('/jpeg');
+    cy.title().should('equal', 'jpeg');
   });
 
   it('url-auto', () => {

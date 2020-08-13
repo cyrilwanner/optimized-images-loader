@@ -7,7 +7,7 @@ Cypress.Commands.add(
     expectedResult?: Record<string, unknown>,
   ) => {
     // wrapper should be visible
-    cy.get(`[data-name="${name}"]`).should('be.visible');
+    cy.get(`[data-name="${name}"]`).should('be.visible').scrollIntoView();
 
     // compare src info
     if (expectedSrcInfo && Object.keys(expectedSrcInfo).length > 0) {
