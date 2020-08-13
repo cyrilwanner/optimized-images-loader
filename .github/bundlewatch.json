@@ -3,6 +3,10 @@
     {
       "path": "./lib/**/*.*",
       "compression": "none"
+    },
+    {
+      "path": "./__tests__/e2e/**/out/*.*",
+      "compression": "none"
     }
   ]
 }
