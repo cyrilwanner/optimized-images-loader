@@ -2,7 +2,7 @@ Cypress.Commands.add(
   'assertImage',
   (
     name: string,
-    original?: { name: string; minSize?: number; maxSize?: number },
+    original?: { name: string; className?: string; minSize?: number; maxSize?: number },
     expectedSrcInfo?: Record<string, unknown> | string[],
     expectedResult?: Record<string, unknown>,
   ) => {
@@ -36,7 +36,7 @@ Cypress.Commands.add(
         const parsedResult = JSON.parse(str);
 
         if (original) {
-          const originalResult = cy.get(`[data-name="${original.name}"] .result`);
+          const originalResult = cy.get(`[data-name="${original.name}"] .${original.className || 'result'}`);
           originalResult.should('be.visible');
           originalResult.should('not.be.empty');
           originalResult.invoke('text').then((originalStr) => {

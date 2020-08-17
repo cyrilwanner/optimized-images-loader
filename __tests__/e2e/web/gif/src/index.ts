@@ -17,3 +17,4 @@ addImage('colors', require('./images/colors.gif?colors'));
 
 addImage('countdown-original', require('./images/countdown-original.gif?original'));
 addImage('robot-original', require('./images/robot-original.gif?original'));
+addImage('space-auto', require('./images/space-auto.gif'));

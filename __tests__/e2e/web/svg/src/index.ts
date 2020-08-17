@@ -15,3 +15,4 @@ addImage('multiple', require('./images/multiple.svg?webp&width=300'));
 
 addImage('firefox-original', require('./images/firefox-original.svg?original'));
 addImage('android-original', require('./images/android-original.svg?original'));
+addImage('banana-auto', require('./images/banana-auto.svg?url'));

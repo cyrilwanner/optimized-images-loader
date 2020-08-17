@@ -57,7 +57,9 @@ module.exports = {
 | mozjpeg | | `MozjpegOptions` | Specifies the options used to optimize jpeg images. All available options can be seen [here](https://www.npmjs.com/package/@wasm-codecs/mozjpeg#encodeoptions-encodeoptions). |
 | oxipng | | `OxipngOptions` | Specifies the options used to optimize png images. All available options can be seen [here](https://www.npmjs.com/package/@wasm-codecs/oxipng#encodeoptions-encodeoptions). |
 | webp | | `WebpOptions` | Specifies the options used to optimize webp images. All available options can be seen [here](https://sharp.pixelplumbing.com/api-output#webp). |
+| gifsicle | | `GifsicleOptions` | Specifies the options used to optimize gif images. All available options can be seen [here](https://www.npmjs.com/package/@wasm-codecs/gifsicle#encodeoptions-encodeoptions). |
 | svgo | | `SvgoOptions` | Specifies the options used to optimize svg images. All available options can be seen [here](https://github.com/svg/svgo#what-it-can-do). |
+| svgr | | `SvgrOptions` | Specifies the options to svgr when using `includeStrategy = 'react'`. |
 
 ## Usage
 

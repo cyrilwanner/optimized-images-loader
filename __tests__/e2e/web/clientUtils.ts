@@ -1,5 +1,10 @@
-export const getImageInfo = async (img: Element): Promise<{ size: number; mimeType: string }> => {
-  const src = img.getAttribute('src');
+export const getImageInfo = async (img: Element | string): Promise<{ size: number; mimeType: string }> => {
+  let src;
+  if (typeof img === 'string') {
+    src = img;
+  } else {
+    src = img.getAttribute('src');
+  }
 
   if (!src) {
     throw new Error('No image src set');
