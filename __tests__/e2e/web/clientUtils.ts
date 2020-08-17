@@ -21,14 +21,30 @@ export const getImageInfo = async (img: Element): Promise<{ size: number; mimeTy
   };
 };
 
-export const addImage = async (name: string, src: ImgSrc): Promise<void> => {
+export const addImage = async (name: string, src: ImgSrc, include?: boolean): Promise<void> => {
   const replacer = (key: string, value: string): string => {
+    if (key === 'src' && include) {
+      return '{included}';
+    }
+
     if (key === 'src' && value.length > 100) {
       return `${value.substr(0, 100)}...`;
     }
 
     return value;
   };
+
+  let imgElement;
+
+  if (Array.isArray(src)) {
+    imgElement = `<div class="wrapper" style="display: flex">${src
+      .map((color) => `<div style="flex: 1; height: 100px; background: ${color}"></div>`)
+      .join('')}</div>`;
+  } else if (include) {
+    imgElement = `<div class="wrapper">${src}</div>`;
+  } else {
+    imgElement = `<img src="${src}" alt="${name}" />`;
+  }
 
   // insert the image with additional information into the dom
   const wrapper = document.createElement('div');
@@ -39,24 +55,18 @@ export const addImage = async (name: string, src: ImgSrc): Promise<void> => {
 ${JSON.stringify(src, replacer, 4)}
     </pre>
     <pre class="result"></pre>
-    ${
-      Array.isArray(src)
-        ? `<div class="wrapper" style="display: flex">${src
-            .map((color) => `<div style="flex: 1; height: 100px; background: ${color}"></div>`)
-            .join('')}</div>`
-        : `<img src="${src}" alt="${name}" />`
-    }
+    ${imgElement}
   `;
   document.body.appendChild(wrapper);
 
-  if (Array.isArray(src)) {
+  if (Array.isArray(src) || include) {
     return;
   }
 
   // get the actual dom node
   const img = document.querySelector(`[data-name="${name}"] img`);
   if (!img) {
-    throw new Error('Created image could not be found');
+    throw new Error(`Created image could not be found (${name})`);
   }
 
   const info = await getImageInfo(img);
