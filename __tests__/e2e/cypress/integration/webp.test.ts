@@ -111,29 +111,11 @@ describe('webp', () => {
   });
 
   it('colors', () => {
-    cy.assertImage('colors', undefined, ['#5698c2', '#cddad7', '#666744', '#1b2021', '#94dcfa']);
-
-    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(0)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(86, 152, 194)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(1)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(205, 218, 215)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(2)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(102, 103, 68)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(3)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(27, 32, 33)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(4)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(148, 220, 250)');
+    cy.assertColors(
+      'colors',
+      ['#5698c2', '#cddad7', '#666744', '#1b2021', '#94dcfa'],
+      ['86, 152, 194', '205, 218, 215', '102, 103, 68', '27, 32, 33', '148, 220, 250'],
+    );
   });
 
   it('tree-original', () => {

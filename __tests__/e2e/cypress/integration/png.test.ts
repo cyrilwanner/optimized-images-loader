@@ -127,29 +127,11 @@ describe('png', () => {
   });
 
   it('colors', () => {
-    cy.assertImage('colors', undefined, ['#66732c', '#dad1ab', '#0f1008', '#9f9f9f', '#a7bc64']);
-
-    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(0)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(102, 115, 44)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(1)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(218, 209, 171)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(2)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(15, 16, 8)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(3)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(159, 159, 159)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(4)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(167, 188, 100)');
+    cy.assertColors(
+      'colors',
+      ['#66732c', '#dad1ab', '#0f1008', '#9f9f9f', '#a7bc64'],
+      ['102, 115, 44', '218, 209, 171', '15, 16, 8', '159, 159, 159', '167, 188, 100'],
+    );
   });
 
   it('multiple', () => {

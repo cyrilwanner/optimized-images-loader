@@ -106,29 +106,11 @@ describe('svg', () => {
   });
 
   it('colors', () => {
-    cy.assertImage('colors', undefined, ['#f45722', '#125ed2', '#fbdf2b', '#331869', '#7c7484']);
-
-    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(0)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(244, 87, 34)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(1)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(18, 94, 210)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(2)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(251, 223, 43)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(3)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(51, 24, 105)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(4)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(124, 116, 132)');
+    cy.assertColors(
+      'colors',
+      ['#f45722', '#125ed2', '#fbdf2b', '#331869', '#7c7484'],
+      ['244, 87, 34', '18, 94, 210', '251, 223, 43', '51, 24, 105', '124, 116, 132'],
+    );
   });
 
   it('multiple', () => {

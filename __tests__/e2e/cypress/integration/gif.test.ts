@@ -118,29 +118,11 @@ describe('gif', () => {
   });
 
   it('colors', () => {
-    cy.assertImage('colors', undefined, ['#323232', '#c4c4c4', '#6c6c6c', '#8c8c8c', '#848484']);
-
-    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(0)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(50, 50, 50)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(1)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(196, 196, 196)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(2)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(108, 108, 108)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(3)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(140, 140, 140)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(4)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(132, 132, 132)');
+    cy.assertColors(
+      'colors',
+      ['#323232', '#c4c4c4', '#6c6c6c', '#8c8c8c', '#848484'],
+      ['50, 50, 50', '196, 196, 196', '108, 108, 108', '140, 140, 140', '132, 132, 132'],
+    );
   });
 
   it('countdown-original', () => {

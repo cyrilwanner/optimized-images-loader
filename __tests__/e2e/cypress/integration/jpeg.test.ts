@@ -127,29 +127,11 @@ describe('jpeg', () => {
   });
 
   it('colors', () => {
-    cy.assertImage('colors', undefined, ['#292913', '#72674f', '#bbb695', '#909e6a', '#8f888f']);
-
-    cy.get('[data-name="colors"] .wrapper > div').should('have.length', 5);
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(0)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(41, 41, 19)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(1)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(114, 103, 79)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(2)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(187, 182, 149)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(3)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(144, 158, 106)');
-    cy.get('[data-name="colors"] .wrapper > div')
-      .eq(4)
-      .should('have.css', 'background-color')
-      .should('equal', 'rgb(143, 136, 143)');
+    cy.assertColors(
+      'colors',
+      ['#292913', '#72674f', '#bbb695', '#909e6a', '#8f888f'],
+      ['41, 41, 19', '114, 103, 79', '187, 182, 149', '144, 158, 106', '143, 136, 143'],
+    );
   });
 
   it('multiple', () => {
