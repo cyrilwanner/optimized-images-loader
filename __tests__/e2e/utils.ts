@@ -7,18 +7,19 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 export const buildWepback = async (
   testName: string,
   loaderOptions: Record<string, unknown> = {},
+  options: { entry?: string; overwriteHtml?: boolean } = {},
 ): Promise<webpack.Stats> => {
   rimraf.sync(path.resolve(__dirname, 'web', testName, 'out'));
 
   const compiler = webpack({
-    entry: path.resolve(__dirname, 'web', testName, 'src', 'index.ts'),
+    entry: path.resolve(__dirname, 'web', testName, 'src', options.entry || 'index.ts'),
     output: {
       path: path.resolve(__dirname, 'web', testName, 'out'),
     },
     module: {
       rules: [
         {
-          test: /\.ts$/,
+          test: /\.tsx?$/,
           loader: 'babel-loader',
         },
         {
@@ -37,12 +38,14 @@ export const buildWepback = async (
       ],
     },
     resolve: {
-      extensions: ['.ts'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     plugins: [
       new HtmlWebpackPlugin({
         title: testName,
-        template: path.resolve(__dirname, 'web', 'index.ejs'),
+        template: options.overwriteHtml
+          ? path.resolve(__dirname, 'web', testName, 'src', 'index.ejs')
+          : path.resolve(__dirname, 'web', 'index.ejs'),
       }),
     ],
     mode: 'production',

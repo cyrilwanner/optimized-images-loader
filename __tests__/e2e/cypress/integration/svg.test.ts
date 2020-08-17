@@ -86,8 +86,7 @@ describe('svg', () => {
   });
 
   it('include-original', () => {
-    cy.assertImage('include', undefined, { format: 'svg', src: '{included}' });
-    cy.assertImage('include', undefined, { format: 'svg', src: '{included}' });
+    cy.assertImage('include-original', undefined, { format: 'svg', src: '{included}' });
 
     cy.get('[data-name="include-original"] .wrapper > svg').should('be.visible').scrollIntoView();
     cy.get('[data-name="include-original"] .wrapper')
