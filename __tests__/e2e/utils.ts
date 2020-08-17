@@ -69,6 +69,6 @@ export const buildWepback = async (
 export const getTests = (): string[] => {
   return fs
     .readdirSync(path.resolve(__dirname, 'web'), { withFileTypes: true })
-    .filter((file) => file.isDirectory())
+    .filter((file) => file.isDirectory() && !file.name.startsWith('.'))
     .map((file) => file.name);
 };

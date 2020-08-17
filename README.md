@@ -47,7 +47,7 @@ module.exports = {
 
 | Option | Default | Type | Description |
 | :--- | :------: | :--: | :---------- |
-| limit | `8192` | `number` | Images smaller than this number (in bytes) will get inlined with a data-uri. |
+| limit | `8192` | `number` | Images smaller than this number (in bytes) will get inlined with a data-uri. To completely disable image inlining, set this value to -1. You will then always get back an image URL. |
 | optimize | `true` | `boolean` | If this plugin should not optimized images, set this to `false`. You can still resize images, convert them to WebP and use other features in that case. |
 | cacheFolder | `'node_modules/optimized-images-loader/.cache'` | `string` | Images will be cached in this folder to avoid long build times. |
 | includeStrategy | `string` | `'string'` | When using the [?include](#include) query param, it returns a string by default. By setting this value to `'react'`, it returns a React component instead (requires manually installing the additional `@svgr/core` package). |
@@ -97,7 +97,7 @@ By default, it will be included as a normal `string`. If you are in a React proj
 
 If this `?webp` query parameter is specified, `optimized-images-loader` automatically converts the image to the new WebP format.
 
-For browsers that don't yet support WebP, you may want to also provide a fallback using the `<picture>` tag or use the [`Img`](#img) component which does this out of the box:
+For browsers that don't yet support WebP, you may want to also provide a fallback using the `<picture>` tag.
 
 #### ?inline
 
