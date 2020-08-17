@@ -29,6 +29,13 @@ describe('gif', () => {
       { format: 'gif', width: 20, height: 20 },
       { type: 'url', mimeType: 'image/gif', width: 20, height: 20 },
     );
+
+    cy.assertImage(
+      'url-force-original',
+      { name: 'url-force', minSize: 1.05 },
+      { format: 'gif', width: 20, height: 20 },
+      { type: 'url', mimeType: 'image/gif', width: 20, height: 20 },
+    );
   });
 
   it('inline-auto', () => {
@@ -53,6 +60,13 @@ describe('gif', () => {
     cy.assertImage(
       'inline-force-original',
       { name: 'countdown-original', minSize: 1.0 },
+      { format: 'gif', width: 176, height: 208 },
+      { type: 'inline', mimeType: 'image/gif', width: 176, height: 208 },
+    );
+
+    cy.assertImage(
+      'inline-force-original',
+      { name: 'inline-force', minSize: 1.05 },
       { format: 'gif', width: 176, height: 208 },
       { type: 'inline', mimeType: 'image/gif', width: 176, height: 208 },
     );

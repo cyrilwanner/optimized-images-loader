@@ -29,6 +29,13 @@ describe('jpeg', () => {
       { format: 'jpeg', width: 100, height: 67 },
       { type: 'url', mimeType: 'image/jpeg', width: 100, height: 67 },
     );
+
+    cy.assertImage(
+      'url-force-original',
+      { name: 'url-force', minSize: 1.05 },
+      { format: 'jpeg', width: 100, height: 67 },
+      { type: 'url', mimeType: 'image/jpeg', width: 100, height: 67 },
+    );
   });
 
   it('inline-auto', () => {
@@ -53,6 +60,13 @@ describe('jpeg', () => {
     cy.assertImage(
       'inline-force-original',
       { name: 'forest-original', minSize: 1.0 },
+      { format: 'jpeg', width: 640, height: 800 },
+      { type: 'inline', mimeType: 'image/jpeg', width: 640, height: 800 },
+    );
+
+    cy.assertImage(
+      'inline-force-original',
+      { name: 'inline-force', minSize: 1.05 },
       { format: 'jpeg', width: 640, height: 800 },
       { type: 'inline', mimeType: 'image/jpeg', width: 640, height: 800 },
     );

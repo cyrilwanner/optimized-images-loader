@@ -29,6 +29,13 @@ describe('png', () => {
       { format: 'png', width: 50, height: 50 },
       { type: 'url', mimeType: 'image/png', width: 50, height: 50 },
     );
+
+    cy.assertImage(
+      'url-force-original',
+      { name: 'url-force', minSize: 1.05 },
+      { format: 'png', width: 50, height: 50 },
+      { type: 'url', mimeType: 'image/png', width: 50, height: 50 },
+    );
   });
 
   it('inline-auto', () => {
@@ -53,6 +60,13 @@ describe('png', () => {
     cy.assertImage(
       'inline-force-original',
       { name: 'dragon-original', minSize: 1.0 },
+      { format: 'png', width: 750, height: 535 },
+      { type: 'inline', mimeType: 'image/png', width: 750, height: 535 },
+    );
+
+    cy.assertImage(
+      'inline-force-original',
+      { name: 'inline-force', minSize: 1.05 },
       { format: 'png', width: 750, height: 535 },
       { type: 'inline', mimeType: 'image/png', width: 750, height: 535 },
     );

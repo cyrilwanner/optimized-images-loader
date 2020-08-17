@@ -29,6 +29,13 @@ describe('webp', () => {
       { format: 'webp', width: 100, height: 67 },
       { type: 'url', mimeType: 'image/webp', width: 100, height: 67 },
     );
+
+    cy.assertImage(
+      'url-force-original',
+      { name: 'url-force', minSize: 1.05 },
+      { format: 'webp', width: 100, height: 67 },
+      { type: 'url', mimeType: 'image/webp', width: 100, height: 67 },
+    );
   });
 
   it('inline-auto', () => {
