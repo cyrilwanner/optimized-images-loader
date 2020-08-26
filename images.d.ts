@@ -24,6 +24,11 @@ declare module '*.png?colors' {
   export = value;
 }
 
+declare module '*.png?lqip' {
+  const value: ImgSrc;
+  export = value;
+}
+
 declare module '*.jpg' {
   const value: ImgSrc;
   export = value;
@@ -31,6 +36,11 @@ declare module '*.jpg' {
 
 declare module '*.jpg?colors' {
   const value: ColorsSrc;
+  export = value;
+}
+
+declare module '*.jpg?lqip' {
+  const value: ImgSrc;
   export = value;
 }
 
@@ -44,6 +54,11 @@ declare module '*.jpeg?colors' {
   export = value;
 }
 
+declare module '*.jpeg?lqip' {
+  const value: ImgSrc;
+  export = value;
+}
+
 declare module '*.webp' {
   const value: ImgSrc;
   export = value;
@@ -51,6 +66,11 @@ declare module '*.webp' {
 
 declare module '*.webp?colors' {
   const value: ColorsSrc;
+  export = value;
+}
+
+declare module '*.webp?lqip' {
+  const value: ImgSrc;
   export = value;
 }
 
@@ -64,6 +84,11 @@ declare module '*.svg?colors' {
   export = value;
 }
 
+declare module '*.svg?lqip' {
+  const value: ImgSrc;
+  export = value;
+}
+
 declare module '*.gif' {
   const value: ImgSrc;
   export = value;
@@ -71,5 +96,10 @@ declare module '*.gif' {
 
 declare module '*.gif?colors' {
   const value: ColorsSrc;
+  export = value;
+}
+
+declare module '*.gif?lqip' {
+  const value: ImgSrc;
   export = value;
 }
