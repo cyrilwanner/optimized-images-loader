@@ -1,5 +1,5 @@
 import { Sharp } from 'sharp';
-import { LoaderOptions } from '../options';
+import { ImageminOptions, LoaderOptions } from '../options';
 import { ImageOptions } from '../parseQuery';
 
 /**
@@ -15,6 +15,7 @@ const optimizeWebp = async (
   image: Sharp,
   imageOptions: ImageOptions,
   options?: LoaderOptions['webp'],
+  imageminOptions?: ImageminOptions,
 ): Promise<Buffer> => {
   // encode the image using sharp
   return image.webp(options).toBuffer();

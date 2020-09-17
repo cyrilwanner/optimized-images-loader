@@ -1,11 +1,16 @@
 import { Sharp } from 'sharp';
 import optimizeJpeg from './jpeg';
-import { LoaderOptions } from '../options';
 import optimizePng from './png';
 import optimizeWebp from './webp';
 import optimizeSvg from './svg';
 import optimizeGif from './gif';
 import { ImageOptions } from '../parseQuery';
+import { ImageminOptions, LoaderOptions } from '../options';
+
+interface SharpOptimizer {
+  optionsKey: string;
+  handler: (image: Sharp, imageOptions: ImageOptions, options?: unknown, imageminOptions?: ImageminOptions) => Promise<Buffer>;
+}
 
 const sharpBasedOptimizers = {
   jpeg: {
@@ -20,10 +25,7 @@ const sharpBasedOptimizers = {
     handler: optimizeWebp,
     optionsKey: 'webp',
   },
-} as Record<
-  string,
-  { handler: (image: Sharp, imageOptions: ImageOptions, options?: unknown) => Promise<Buffer>; optionsKey: string }
->;
+} as Record<string, SharpOptimizer>;
 
 const rawBufferBasedOptimizers = {
   svg: {
@@ -61,6 +63,7 @@ const optimizeImage = async (
       image,
       imageOptions,
       (loaderOptions as Record<string, unknown>)[sharpBasedOptimizers[format].optionsKey],
+      loaderOptions.imagemin,
     );
   }
 

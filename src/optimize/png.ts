@@ -1,7 +1,8 @@
 import { Sharp } from 'sharp';
 import encode from '@wasm-codecs/oxipng';
-import { LoaderOptions } from '../options';
+import { ImageminOptions, LoaderOptions } from '../options';
 import { ImageOptions } from '../parseQuery';
+import { compress } from './imagemin';
 
 /**
  * Optimize a png image using @wasm-codecs/oxipng
@@ -16,9 +17,15 @@ const optimizePng = async (
   image: Sharp,
   imageOptions: ImageOptions,
   options?: LoaderOptions['oxipng'],
+  imageminOptions?: ImageminOptions,
 ): Promise<Buffer> => {
+  const data = await image.toBuffer();
+
+  const imageminBuffer = await compress(data, imageminOptions);
+  if (imageminBuffer) return imageminBuffer;
+
   // encode the image using @wasm-codecs/oxipng
-  return encode(await image.toBuffer(), options);
+  return encode(data, options);
 };
 
 export default optimizePng;
