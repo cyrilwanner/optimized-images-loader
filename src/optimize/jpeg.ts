@@ -19,14 +19,15 @@ const optimizeJpeg = async (
   options?: LoaderOptions['mozjpeg'],
   imageminOptions?: ImageminOptions,
 ): Promise<Buffer> => {
+  // try imagemin first
+  const imageminBuffer = await compress(image, imageminOptions);
+  if (imageminBuffer) return imageminBuffer;
+
   // convert to raw image data
   const {
     data,
     info: { width, height, channels },
   } = await image.raw().toBuffer({ resolveWithObject: true });
-
-  const imageminBuffer = await compress(data, imageminOptions);
-  if (imageminBuffer) return imageminBuffer;
 
   // encode the image using @wasm-codecs/mozjpeg
   return encode(data, { width, height, channels }, options);

@@ -9,7 +9,12 @@ import { ImageminOptions, LoaderOptions } from '../options';
 
 interface SharpOptimizer {
   optionsKey: string;
-  handler: (image: Sharp, imageOptions: ImageOptions, options?: unknown, imageminOptions?: ImageminOptions) => Promise<Buffer>;
+  handler: (
+    image: Sharp,
+    imageOptions: ImageOptions,
+    options?: unknown,
+    imageminOptions?: ImageminOptions,
+  ) => Promise<Buffer>;
 }
 
 const sharpBasedOptimizers = {

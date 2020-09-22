@@ -19,13 +19,12 @@ const optimizePng = async (
   options?: LoaderOptions['oxipng'],
   imageminOptions?: ImageminOptions,
 ): Promise<Buffer> => {
-  const data = await image.toBuffer();
-
-  const imageminBuffer = await compress(data, imageminOptions);
+  // try imagemin first
+  const imageminBuffer = await compress(image, imageminOptions);
   if (imageminBuffer) return imageminBuffer;
 
   // encode the image using @wasm-codecs/oxipng
-  return encode(data, options);
+  return encode(await image.toBuffer(), options);
 };
 
 export default optimizePng;
