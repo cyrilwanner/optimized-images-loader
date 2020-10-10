@@ -52,7 +52,7 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "typescript": "^3.9.3",
-    "webpack": "^4.43.0"
+    "webpack": "^5.0.0"
   },
   "main": "lib/index.js",
   "types": "images.d.ts",
