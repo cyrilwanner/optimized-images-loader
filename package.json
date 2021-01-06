@@ -29,7 +29,7 @@
     "get-rgba-palette": "^2.0.1",
     "loader-utils": "^2.0.0",
     "schema-utils": "^2.6.6",
-    "sharp": "^0.26.0",
+    "sharp": "^0.27.0",
     "svgo": "^1.3.2",
     "url-loader": "^4.1.0"
   },
@@ -40,7 +40,7 @@
     "@babel/preset-typescript": "^7.9.0",
     "@types/jest": "^26.0.0",
     "@types/loader-utils": "^2.0.0",
-    "@types/sharp": "^0.25.0",
+    "@types/sharp": "^0.27.0",
     "@types/svgo": "^1.3.3",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
