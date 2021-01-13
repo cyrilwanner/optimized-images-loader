@@ -12,6 +12,7 @@ export interface ImageOptions {
   processLoaders?: boolean;
   component?: 'react';
   lqip?: 'blur' | 'colors';
+  trace?: boolean;
 }
 
 /**
@@ -78,6 +79,11 @@ const parseQuery = (rawQuery: string, loaderOptions: LoaderOptions): ImageOption
   if (typeof query.colors !== 'undefined' || typeof query['lqip-colors'] !== 'undefined') {
     options.processLoaders = false;
     options.lqip = 'colors';
+  }
+
+  // return svg trace instead of image
+  if (typeof query.trace !== 'undefined') {
+    options.trace = true;
   }
 
   return options;

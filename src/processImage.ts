@@ -5,6 +5,7 @@ import optimizeImage from './optimize';
 import convertImage from './convert';
 import getDominantColors from './lqip/colors';
 import calculateBlurOptions from './lqip/blur';
+import { traceSvg } from './svg-trace';
 
 /**
  * Processes an image by performing all steps specified in the image options
@@ -51,6 +52,11 @@ const processImage = async (
         imageOptions.height = info.height; // eslint-disable-line no-param-reassign
       }
     }
+  }
+
+  // create svg trace using `potrace`
+  if (imageOptions.trace) {
+    return { data: await traceSvg(image, imageOptions), info: imageMetadata };
   }
 
   // get lqip colors

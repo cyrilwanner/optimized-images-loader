@@ -1,7 +1,23 @@
 import urlLoader from 'url-loader';
 import { loader } from 'webpack';
+import svgToMiniDataURI from 'mini-svg-data-uri';
 import { ImageOptions } from './parseQuery';
 import { defaultFurtherLoaderOptions, OptionObject } from './options';
+
+/**
+ * Returns the **final** format of the file.
+ * @param {{ width?: number; height?: number; format?: string }} originalImageInfo Metadata of original image
+ * @param {ImageOptions} imageOptions Image options
+ */
+const getFormat = (originalFormat: string | undefined, imageOptions: ImageOptions): string | undefined => {
+  if (imageOptions.trace) {
+    return 'svg';
+  }
+  if (imageOptions.convert) {
+    return imageOptions.convert;
+  }
+  return originalFormat;
+};
 
 /**
  * Enrich previous loader result with new information
@@ -18,7 +34,7 @@ const enrichResult = (
 ): string => {
   const width = imageOptions.resize ? imageOptions.width : originalImageInfo.width;
   const height = imageOptions.resize ? imageOptions.height : originalImageInfo.height;
-  const format = imageOptions.convert ? imageOptions.convert : originalImageInfo.format;
+  const format = getFormat(originalImageInfo.format, imageOptions);
 
   // an array means it was not processed by the url-/file-loader and the result should still be an array
   // instead of a string. so in this case, append the additional export information to the array prototype
@@ -138,11 +154,13 @@ const processLoaders = (
   furtherLoaderOptions.name = replaceName(furtherLoaderOptions.name, originalImageInfo, imageOptions);
 
   // change extension for converted images
-  if (imageOptions.convert && furtherLoaderOptions.name) {
+  if ((imageOptions.convert || imageOptions.trace) && furtherLoaderOptions.name) {
+    const ext = imageOptions.trace ? 'svg' : imageOptions.convert;
+
     furtherLoaderOptions.name =
       furtherLoaderOptions.name.indexOf('[ext]') >= 0
-        ? furtherLoaderOptions.name.replace('[ext]', imageOptions.convert)
-        : (furtherLoaderOptions.name += `.${imageOptions.convert}`);
+        ? furtherLoaderOptions.name.replace('[ext]', ext)
+        : (furtherLoaderOptions.name += `.${ext}`);
   }
 
   // force inlining
@@ -158,7 +176,23 @@ const processLoaders = (
   const furtherLoaderContext = { ...context, query: furtherLoaderOptions };
 
   // get result of url-loader
-  const result = urlLoader.call(furtherLoaderContext, image);
+  const result =
+    // compress inline svg if inlining with url-loader
+    getFormat(originalImageInfo.format, imageOptions) === 'svg'
+      ? urlLoader.call(
+          {
+            ...furtherLoaderContext,
+            query: {
+              ...furtherLoaderContext.query,
+              generator: (content: string) =>
+                // svgToMiniDataURI compresses better than base64
+                // `srcset` attribute rejects URIs with literal spaces we replace them
+                svgToMiniDataURI(content.toString()).replace(/ /gi, `%20`),
+            },
+          },
+          image,
+        )
+      : urlLoader.call(furtherLoaderContext, image);
 
   return enrichResult(result, originalImageInfo, imageOptions);
 };
